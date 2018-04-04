@@ -1,0 +1,21 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Input Controlled Camera", "Input Controlled Camera\Input Controlled Camera.vcxproj", "{260B421D-7A25-436B-9943-DE56822A6E0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{260B421D-7A25-436B-9943-DE56822A6E0B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{260B421D-7A25-436B-9943-DE56822A6E0B}.Debug|Win32.Build.0 = Debug|Win32
+		{260B421D-7A25-436B-9943-DE56822A6E0B}.Release|Win32.ActiveCfg = Release|Win32
+		{260B421D-7A25-436B-9943-DE56822A6E0B}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
