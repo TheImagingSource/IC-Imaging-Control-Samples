@@ -1,7 +1,6 @@
 # Import IC Capture Configration File (ICCF)
 
-This code snippets imports IC Capture Configuration files (ICCF) to IC Imaging Control. The ICCF files differ extremely from the XML format
-"LoadDeviceStatefromFile()" expects. Therefore, an importer is necessary.
+This code snippet imports IC Capture Configuration files (ICCF) to IC Imaging Control. The ICCF files differ extremely from the XML format "LoadDeviceStatefromFile()" expects. Therefore, an importer is necessary.
 
 The file "ICCFImport.cs" contains the import function itself. Returned is a string, that contains XML data, which is read by "LoadDeviceState()" (not from file)
 
@@ -18,8 +17,6 @@ catch (ICException IEx)
     MessageBox.Show("Import of ICCF file failed:\n" + IEx.Message, "Import IC Capture File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 }
 ```
-
-
 In case, there is more than one camera specified in the ICCF file, a camera name plus serial number can passed:
 
 ``` C#
@@ -34,7 +31,7 @@ catch (ICException IEx)
 }
 ```
 
-The "SelectDeviceDlg.cs" files show a dialog for camera selection from the ICCF file. It is used as:
+The "SelectDeviceDlg*.cs" files show a dialog for camera selection from the ICCF file. It is used as:
 
 ``` C#
 ICCFImport.SelectDeviceDlg DevDlg = new ICCFImport.SelectDeviceDlg("cameras.iccf");
