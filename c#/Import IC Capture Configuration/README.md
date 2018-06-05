@@ -1,4 +1,4 @@
-# Import IC Capture Configration File (ICCF)
+# Import IC Capture Configuration File (ICCF)
 
 This code snippet imports IC Capture Configuration files (ICCF) to IC Imaging Control. The ICCF files differ extremely from the XML format "LoadDeviceStatefromFile()" expects. Therefore, an importer is necessary.
 
