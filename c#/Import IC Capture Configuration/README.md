@@ -47,5 +47,7 @@ if (DevDlg.ShowDialog(this) == DialogResult.OK)
     }
 }
 ``` 
- 
-The needs minimum Visual Studio 2010 C++
+
+## Limitations
+- ROIs are only considered, if the sensor of the camera supports this in hardware. Most of our cameras do that.
+- Rotation and flip are ignored, because the importer does not load the "rotateflip" filter.
