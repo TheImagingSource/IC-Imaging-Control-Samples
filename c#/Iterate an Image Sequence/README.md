@@ -2,7 +2,7 @@
 
 This C# programming example shows how the last two seconds leading up to an unknown event can be captured to an image sequence.
 
-## Introcution
+## Introduction
 The last two seconds leading up to an unknown event should be captured to an image sequence. In this example, the event is fired by clicking on a button. After this event has occurred, the user can iterate manually or automatically through the captured images.
 
 This sort of application could be used in various kinds of sports to review movements of athletes. For example, the movements of an athlete doing long jumps are to be checked. The coach clicks on the Capture button when the athlete lands in the sandbox. The seconds before the landing - especially the jump - can be called back, allowing the coach to discuss the jump with the athlete. The same could be done, for example, with golfers and tennis players etc.
@@ -15,7 +15,7 @@ The following techniques illustrated in this example:
   
 The application looks as follows:
 
-![Program](./img/sequnce.gif)
+![Program](./img/sequence.gif)
 
 After the application has been started, a video capture device can be selected by clicking on the Device button. The live video can be started by clicking on the Start Live button. After two seconds, the first images of the live video have filled the ring buffer. Next, the Capture button is enabled by the application and the end user can trigger the capture event, by clicking on the Capture button when it is needed. If the Capture button is clicked, the live video stream stops and the oldest captured image is displayed in the IC Imaging Control window. The oldest image in the ring buffer is the first image to be displayed. The slider below the IC Imaging Control window is used to move through the captured images (forward and backward). The end user may click on the Auto Repeat button, in order to quickly display the images in a loop.
 
