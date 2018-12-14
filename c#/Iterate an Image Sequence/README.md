@@ -55,7 +55,7 @@ int FrameCount = 0;
 int Seconds = 10;
 ```
 
-# Calculation of the image ring buffer size
+## Calculation of the image ring buffer size
 
 The size of the ring buffer is determined by the frame rate of the video capture device (for example, 30 fps) and the length of the image sequence to be captured (for example, 2 seconds). Now, the frame rate must be multiplied by the length in seconds. The result will be assigned to ```icImagingControl1.ImageRingBufferSize```. This can be done only after a video capture device has already been selected. In this sample, this is done in the ```btnDevice_Click``` button handler. The following source code illustrates how to select a device and how to calculate the ring buffer size:
 
@@ -85,7 +85,7 @@ catch (ICException IEx)
     MessageBox.Show("Import of ICCF file failed:\n" + IEx.Message, "Import IC Capture File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 }
 ```
-# Handling the "Capture" event
+## Handling the "Capture" event
 The live video is stopped when the end-user clicks on the ```Capture``` button If it is necessary to continue capturing some time after the event (button click) has occurred, a call to ```Sleep``` can be inserted before the call to icImagingControl1.LiveStop. Each frame is automatically stored in the ring buffer, therefore the last two seconds of the captured images are now available for processing. In order to provide fast access to the images in the ring buffer, the reference of the ring buffer is copied to the application's variable ```Images```:
 
 ``` C#
@@ -146,7 +146,7 @@ private void DisplayTheImage(int Index)
     }
 }
 ``` 
-# Enable the "Capture" button
+## Enable the "Capture" button
 The last step illustrates how to enable the ```Capture``` button after a sufficient number of frames have been captured. The variable ```FrameCount``` is set to 0 when the live video stream has started. In the ```ImageAvailable``` event of IC Imaging Control, ```FrameCount``` is incremented until it is greater than the ring buffer's element count (size). If this point is reached, the ring buffer has been completely filled with new images and the event can be fired. The ```Capture``` button can then be activated.
 
 Since it is not recommended to change button state from within the ```ImageAvailable``` event directly, a ```Delegate``` should be used. The reason for this programming overhead is the use of different threads. The ```ImageAvailable``` event handler is called from IC Imaging Control's grabbing thread. The change of button states etc. are performed in the application's thread. Crossthread calls to controls can lead to application locks.
