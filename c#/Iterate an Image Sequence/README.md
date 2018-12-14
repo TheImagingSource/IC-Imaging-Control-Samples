@@ -55,7 +55,7 @@ int FrameCount = 0;
 int Seconds = 10;
 ```
 
-#Calculation of the image ring buffer size
+# Calculation of the image ring buffer size
 
 The size of the ring buffer is determined by the frame rate of the video capture device (for example, 30 fps) and the length of the image sequence to be captured (for example, 2 seconds). Now, the frame rate must be multiplied by the length in seconds. The result will be assigned to ```icImagingControl1.ImageRingBufferSize```. This can be done only after a video capture device has already been selected. In this sample, this is done in the ```btnDevice_Click``` button handler. The following source code illustrates how to select a device and how to calculate the ring buffer size:
 
