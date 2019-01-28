@@ -1,0 +1,9 @@
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\bin\x64\Debug\CaptureImageSequence1.exe.config
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\bin\x64\Debug\CaptureImageSequence1.exe
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\bin\x64\Debug\CaptureImageSequence1.pdb
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\obj\x64\Debug\CaptureImageSequence1.csprojResolveAssemblyReference.cache
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\obj\x64\Debug\CaptureImageSequence1.Form1.resources
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\obj\x64\Debug\CaptureImageSequence1.Properties.Resources.resources
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\obj\x64\Debug\CaptureImageSequence1.csproj.GenerateResource.Cache
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\obj\x64\Debug\CaptureImageSequence1.exe
+d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\c#\Iterate an Image Sequence\CaptureImageSequence1\obj\x64\Debug\CaptureImageSequence1.pdb
