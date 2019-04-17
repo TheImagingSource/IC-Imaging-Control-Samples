@@ -1,5 +1,5 @@
-# Open Camera, Grab Image to OpenCV
-This sample shows, how to use a The Imaging Source camera in Python Windows, grab images and forward them to OpenCV
+# Python Samples for Windows and IC Imaging Control
+Thes samples show, how to use a The Imaging Source camera in Python Windows, grab images and forward them to OpenCV and use callbacks
 
 Programming Language : Python
 
@@ -7,6 +7,8 @@ Programming Language : Python
 | --- | --- |
 | tis-OpenCV.py | The main program to be executed |
 | tisgrabber.py | Wrapper around the tisgrabber.dll, which encapsulates IC Imaging Control. This file wil be enhanced time by time. |
+| callback.py | Simple callback implementation for saving an image |
+| callback-image-processing.py | Callback sample, which uses OpenCV for measuring image brightness |
 | tisgrabber.dll | 32bit version  |
 | TIS_UDSHL11.dll | 32 bit version of IC Imaging Control |
 | tisgrabber_x64.dll | 64bit version  |

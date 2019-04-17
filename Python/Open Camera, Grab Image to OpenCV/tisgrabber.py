@@ -4,11 +4,21 @@ Created on Mon Nov 21 09:44:40 2016
 
 @author: Daniel Vassmer, Stefan_Geissler
 """
+from enum import Enum
 
 import ctypes as C
 import os
 import sys
 import numpy as np
+
+class SinkFormats(Enum):
+   Y800 = 0
+   RGB24 = 1 
+   RGB32 = 2
+   UYVY = 3  
+   Y16 = 4
+
+ImageFileTypes = {'BMP':0, 'JPEG':1}
 
 
 class GrabberHandle(C.Structure):
@@ -21,6 +31,11 @@ class TIS_GrabberDLL(object):
     else:
         __tisgrabber = C.windll.LoadLibrary("tisgrabber.dll")
     
+    def __init__(self, **keyargs):
+        """Initialize the Albatross from the keyword arguments."""
+        self.__dict__.update(keyargs)
+
+
     GrabberHandlePtr = C.POINTER(GrabberHandle)
     
 #     Initialize the ICImagingControl class library. This function must be called
@@ -197,6 +212,17 @@ class TIS_GrabberDLL(object):
     GetVideoNorm.restype = C.c_char_p
     GetVideoNorm.argtypes = (GrabberHandlePtr,
                                C.c_int,)  
+
+
+    SetFormat = __tisgrabber.IC_SetFormat
+    SetFormat.restype = C.c_int
+    SetFormat.argtypes = (GrabberHandlePtr,
+                               C.c_int,)  
+    GetFormat = __tisgrabber.IC_GetFormat
+    GetFormat.restype = C.c_int
+    GetFormat.argtypes = (GrabberHandlePtr,)  
+
+
 #    Start the live video. 
 #	@param hGrabber The handle to the grabber object.
 #	@param iShow The parameter indicates:   @li 1 : Show the video	@li 0 : Do not show the video, but deliver frames. (For callbacks etc.)
@@ -212,6 +238,12 @@ class TIS_GrabberDLL(object):
     StopLive = __tisgrabber.IC_StopLive
     StopLive.restype = C.c_int
     StopLive.argtypes = (GrabberHandlePtr,) 
+
+
+    SetHWND = __tisgrabber.IC_SetHWnd
+    SetHWND.restype = C.c_int
+    SetHWND.argtypes = (GrabberHandlePtr,
+                               C.c_int,) 
 
 
 #    Snaps an image. The video capture device must be set to live mode and a 
@@ -360,7 +392,25 @@ class TIS_GrabberDLL(object):
                             C.c_char_p,
                             C.c_char_p,
                             C.POINTER(C.c_float), )
-    
+
+    # definition of the frameready callback
+    FRAMEREADYCALLBACK = C.CFUNCTYPE(C.c_void_p,C.c_int, C.POINTER(C.c_ubyte), C.c_ulong,  C.py_object )
+
+    # set callback function
+    SetFrameReadyCallback = __tisgrabber.IC_SetFrameReadyCallback
+    SetFrameReadyCallback.restype = C.c_int
+    SetFrameReadyCallback.argtypes = [GrabberHandlePtr, FRAMEREADYCALLBACK, C.py_object]
+
+    SetContinuousMode = __tisgrabber.IC_SetContinuousMode
+
+    SaveImage = __tisgrabber.IC_SaveImage
+    SaveImage.restype = C.c_int
+    SaveImage.argtypes = [C.c_void_p, C.c_char_p, C.c_int, C.c_int ]
+
+    OpenVideoCaptureDevice = __tisgrabber.IC_OpenVideoCaptureDevice
+    OpenVideoCaptureDevice.restype = C.c_int
+    OpenVideoCaptureDevice.argtypes = [C.c_void_p, C.c_char_p]
+
 # ############################################################################
 
                         
@@ -383,8 +433,30 @@ class TIS_CAM(object):
             if type(strin) == "byte":
                 return strin
             return strin.encode("utf-8")
+
+        def SetFrameReadyCallback(self, CallbackFunction, data):
+            """ Set a callback function, which is called, when a new frame arrives. 
+
+            CallbackFunction : The callback function
+
+            data : a self defined class with user data.
+            """
+            return TIS_GrabberDLL.SetFrameReadyCallback( self._handle, CallbackFunction, data )
+
+        def SetContinuousMode(self, Mode):
+            ''' Determines, whether new frames are automatically copied into memory.
+
+            :param Mode: If 0, all frames are copied automatically into memory. This is recommened, if the camera runs in trigger mode.
+                          If 1, then snapImages must be called to get a frame into memory.  
+            :return: None
+            '''
+            return TIS_GrabberDLL.SetContinuousMode(self._handle, Mode)
             
         def open(self,unique_device_name):
+            """ Open a device 
+            
+            unique_device_name : The name and serial number of the device to be opened. The device name and serial number are separated by a space.
+            """
             test = TIS_GrabberDLL.open_device_by_unique_name(self._handle,
                                                        self.s(unique_device_name))
 
@@ -399,6 +471,9 @@ class TIS_CAM(object):
         def IsDevValid(self):
             return TIS_GrabberDLL.IsDevValid(self._handle)
             
+        def SetHWND(self, Hwnd):
+            return TIS_GrabberDLL.SetHWND(self._handle, Hwnd)
+
         def SaveDeviceStateToFile(self, FileName):
             return TIS_GrabberDLL.SaveDeviceStateToFile(self._handle, self.s(FileName))
             
@@ -448,11 +523,42 @@ class TIS_CAM(object):
                 self.GetVideoNorm.append(TIS_GrabberDLL.GetVideoNorm(self._handle, i))
             return self.GetVideoNorm
         
+
+        def SetFormat(self, Format):
+            ''' SetFormat 
+            Sets the pixel format in memory
+            @param Format Sinkformat enumeration
+            '''
+            TIS_GrabberDLL.SetFormat(self._handle, Format.value)
+
+        def GetFormat(self):
+            val = TIS_GrabberDLL.GetFormat(self._handle)
+            if val == 0:
+                return SinkFormats.Y800
+            if val == 2:
+                return SinkFormats.RGB32
+            if val == 1:
+                return SinkFormats.RGB24
+            if val == 3:
+                return SinkFormats.UYVY
+            if val == 4:
+                return SinkFormats.Y16
+            return SinkFormats.RGB24
+
+
         def StartLive(self, showlive = 1):
+            """
+            Start the live video stream.
+
+            showlive: 1 : a live video is shown, 0 : the live video is not shown.
+            """
             Error = TIS_GrabberDLL.StartLive(self._handle, showlive)
             return Error
 
         def StopLive(self):
+            """
+            Stop the live video.
+            """
             Error = TIS_GrabberDLL.StopLive(self._handle)
             return Error
 
@@ -578,3 +684,20 @@ class TIS_CAM(object):
                                                     lValue)
             Value[0] = lValue.value
             return error
+
+        
+        def SaveImage(self,FileName, FileType, Quality=75):
+            ''' Saves the last snapped image. Can by of type BMP or JPEG.
+            :param FileName : Name of the mage file
+            :param FileType : Determines file type, can be "JPEG" or "BMP"
+            :param Quality : If file typ is JPEG, the qualitly can be given from 1 to 100. 
+            :return: Error code
+            '''
+            return TIS_GrabberDLL.SaveImage(self._handle, self.s(FileName), IC.ImageFileTypes[self.s(FileType)],Quality)
+
+        def openVideoCaptureDevice(self, DeviceName):
+            ''' Open the device specified by DeviceName
+            :param DeviceName: Name of the device , e.g. "DFK 72AUC02"
+            :returns: 1 on success, 0 otherwise.
+            '''
+            return TIS_GrabberDLL.OpenVideoCaptureDevice(self._handle, self.s(DeviceName))
