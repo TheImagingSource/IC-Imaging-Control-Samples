@@ -76,6 +76,122 @@ Camera.SetPropertyValue("Gain","Value",10)
 
 Use the IC Imaging Control VCD Property Inspector to get a list of supported properties an elements. It is installed with the [IC Imaging Control SDK](https://www.theimagingsource.com/support/downloads-for-windows/software-development-kits-sdks/icimagingcontrol/)
 
+## Callbacks
+IC Imaging Control can call a callback function for new incoming frames. The callback function is declared wit
+``` Python
+def Callback(hGrabber, pBuffer, framenumber, pData):
+```
+
+| Parameter | Description|
+| --- | --- |
+| hGrabber | Pointer to the grabber object, from which the callback was called. |
+| pBuffer | Unsinged char (BYTE) pointer to the image data |
+| framenumber | Number of the recevied frames sinnce start of video |
+| pDdata | Pointer to a user data struct |
+
+A very simple callback function is
+
+``` Python
+def Callback(hGrabber, pBuffer, framenumber, pData):
+    print("Callback called")
+```
+
+For passing it to the tisgrabber dll, a pointer to this function is needed:
+``` Python
+Callbackfunc = IC.TIS_GrabberDLL.FRAMEREADYCALLBACK(Callback)
+```
+
+Also we may use some userdata, thus create a struct.
+
+``` Python
+class CallbackUserdata(C.Structure):
+    def __init__(self):
+        self.Value1 = 42
+        self.Value2 = 0
+
+Userdata = CallbackUserdata()    
+```
+
+Now the callback can be passed 
+``` Python
+Camera.SetFrameReadyCallback(Callbackfunc, Userdata )
+```
+
+At least, the trisgrabber DLL must know, whether the callback is to be called for each incoming frame or whether it is called for an extra "snapimages()" call only:
+``` Python
+# Handle each incoming frame automatically.
+Camera.SetContinuousMode(0)
+```
+Now the live video can be started and the callback is called now.
+
+### Callback sample for using the hGrabber parameter:
+``` Python
+def Callback(hGrabber, pBuffer, framenumber, pData):
+    """ This is an example callback function 
+         The image is saved in test.jpg and the pData.Value1 is 
+         incremented by one.
+    """
+    pData.Value1 = pData.Value1 + 1
+    IC.TIS_GrabberDLL.SaveImage(hGrabber, s("test" +str(framenumber)+".jpg"), IC.ImageFileTypes["JPEG"], 75)
+```
+In this sample, the functions in the TIS_GrabberDLL are called directly, passing by the camera class. Also there is something done with the user data.
+
+
+### Callback sample for using the pBuffer parameter for image processing
+This sample converts the data of pBuffer into a cv::Mat for image processing. Therefore, the information about the iamge size and type is saved in user data. A struct is created for this first:
+``` Python
+class CallbackUserdata(C.Structure):
+    """ Example for user data passed to the callback function. """
+    def __init__(self):
+        self.width = 0
+        self.height = 0
+        self.iBitsPerPixel = 0
+        self.buffer_size = 0
+        self.oldbrightness = 0
+
+ImageDescription = CallbackUserdata()    
+```
+The "oldbrightnes" member is used for saving measured data and compare it with the next incoming image. 
+
+After the live video has been started, the description is available and will be saved:
+``` Python
+Imageformat = Camera.GetImageDescription()[:3]
+ImageDescription.width = Imageformat[0]
+ImageDescription.height= Imageformat[1]
+ImageDescription.iBitsPerPixel=Imageformat[2]//8
+ImageDescription.buffer_size = ImageDescription.width * ImageDescription.height * ImageDescription.iBitsPerPixel
+```
+
+The callback is following:
+``` Python
+def Callback(hGrabber, pBuffer, framenumber, pData):
+    """ This is an example callback function for image processig  with 
+        opencv. The image data in pBuffer is converted into a cv Matrix
+        and with cv.mean() the average brightness of the image is
+        measuered.
+    """
+    if pData.buffer_size > 0:
+        image = C.cast(pBuffer, C.POINTER(C.c_ubyte * pData.buffer_size))
+
+        cvMat = np.ndarray(buffer = image.contents,
+                        dtype = np.uint8,
+                        shape = (pData.height,
+                                pData.width,
+                                pData.iBitsPerPixel))
+        brightness = cv2.mean(cvMat)
+        b = int( brightness[0] )
+        if b != pData.oldbrightness:
+            print( b)
+            pData.oldbrightness = b
+
+# Create the function pointer.
+Callbackfunc = IC.TIS_GrabberDLL.FRAMEREADYCALLBACK(Callback)
+
+```
+With the check on buffer_size > 0 we are shure, that our user data in pData contains valid data.
+Then some magic cast is done so the numpy array can be created, which is used for brightness measurement by a call to cv2.mean()
+
+
 
 
 
