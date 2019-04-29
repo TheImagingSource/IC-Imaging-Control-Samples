@@ -188,8 +188,13 @@ def Callback(hGrabber, pBuffer, framenumber, pData):
 Callbackfunc = IC.TIS_GrabberDLL.FRAMEREADYCALLBACK(Callback)
 
 ```
-With the check on buffer_size > 0 we are shure, that our user data in pData contains valid data.
+With the check on buffer_size > 0 we are sure, that our user data in pData contains valid data.
 Then some magic cast is done so the numpy array can be created, which is used for brightness measurement by a call to cv2.mean()
+
+### Using Y16 as video and sink format
+The Using-Y16.py sample shows, how to use Y16 as video and pixel format in memory (sink). The first ten pixel values are printed to output.
+The camera's Y16 format contains, dependent on the sensor, 12 or 10 valid bits. The upper bits contain valid content, the lower 4 or 6 bits are not connected.
+For this sample a new function 'TIS.GetImageEx()' is added to tisgrabber.py. This function returns a numpy array. It has uint8 for Y800, RGB32 and RGB32 and uint16 for Y16 pixel formats. RGB64 is not supported currently.
 
 
 

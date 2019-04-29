@@ -584,7 +584,7 @@ class TIS_CAM(object):
             return ImagePtr
            
         def GetImage(self):
-            BildDaten = self.GetImageDescription()[:3]
+            BildDaten = self.GetImageDescription()[:4]
             lWidth=BildDaten[0]
             lHeight= BildDaten[1]
             iBitsPerPixel=BildDaten[2]//8
@@ -594,13 +594,42 @@ class TIS_CAM(object):
             
             Bild = C.cast(img_ptr, C.POINTER(C.c_ubyte * buffer_size))
             
+            
             img = np.ndarray(buffer = Bild.contents,
                          dtype = np.uint8,
                          shape = (lHeight,
                                   lWidth,
                                   iBitsPerPixel))
             return img
+
+        def GetImageEx(self):
+            """ Return a numpy array with the image data tyes
+            If the sink is Y16 or RGB64 (not supported yet), the dtype in the array is uint16, othereise it is uint8
+            """
+            BildDaten = self.GetImageDescription()[:4]
+            lWidth=BildDaten[0]
+            lHeight= BildDaten[1]
+            iBytesPerPixel=BildDaten[2]//8
+
+            buffer_size = lWidth*lHeight*iBytesPerPixel*C.sizeof(C.c_uint8)            
+            img_ptr = self.GetImagePtr()
             
+            Bild = C.cast(img_ptr, C.POINTER(C.c_ubyte * buffer_size))
+            
+            pixeltype = np.uint8
+
+            if  BildDaten[3] == 4: #SinkFormats.Y16:
+                pixeltype = np.uint16
+                iBytesPerPixel = 1
+            
+            img = np.ndarray(buffer = Bild.contents,
+                         dtype = pixeltype,
+                         shape = (lHeight,
+                                  lWidth,
+                                  iBytesPerPixel))
+            return img
+
+
         def GetCameraProperty(self,iProperty):
             lFocusPos = C.c_long()
             Error = TIS_GrabberDLL.GetCameraProperty(self._handle,iProperty, lFocusPos)
