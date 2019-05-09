@@ -15,9 +15,9 @@ The source code of the tool is written in C#. The "project.xml" controls, which 
 All properties are generated using templates, only the property name, the item ID and element ID are variable. The IC Imaging Control VCDProperties know five interfaces for properties:
 - range, which is an integer value
 - absolute, which is a double value
-- switch, which is a bool value for e.g. automatics on an of
-- push, which executes a function, e.g. white balance one push, 
-- mapstrings, which contains a list of strings.
+- switch, which is a bool value for e.g. automatics on an off
+- push, which executes a function, e.g. white balance one push 
+- mapstrings, which contains a list of strings
 
 Therefore, there are five templates, one for each interface.
 
