@@ -5,7 +5,7 @@ It conists of two DLLs:
  * ipconfig_api_win32.dll
 
 These DLLs can be imported into a C# program. Using the API, a program can query camera name, serial number, IP adress, firmware version and so on.
-The class IPConfigAPI in IPConfigAPI.cs implements that. It is used as follows:
+The class ```IPConfigAPI``` in IPConfigAPI.cs implements that. The DLLs are unmanaged, therefore, the project settings must allow ```unsafe code```. It is used as follows:
 ``` C#
 UInt32 CamerasFound;
 IPConfigAPI.IPConfigAPI ipconfigapi = new IPConfigAPI.IPConfigAPI();
