@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Englisch (USA) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -81,23 +81,23 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
 END
 
-IDD_InputControlledCamera_DIALOG DIALOGEX 0, 0, 449, 301
+IDD_InputControlledCamera_DIALOG DIALOGEX 0, 0, 513, 333
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "Input Controlled AVI Capture"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "",IDC_STATICVIDEO,7,24,367,270,SS_SUNKEN
-    PUSHBUTTON      "Device",IDC_BUTTONDEVICE,392,7,50,16
-    PUSHBUTTON      "Settings",IDC_BUTTONIMAGESETTINGS,392,26,50,16,WS_DISABLED
-    PUSHBUTTON      "Live Start",IDC_BUTTONLIVEVIDEO,392,44,50,16,WS_DISABLED
-    LTEXT           "Static",IDC_STATICRECORDING,396,74,46,8
-    PUSHBUTTON      "AVI Settings",IDC_BUTTONAVISETTINGS,392,100,50,16
+    LTEXT           "",IDC_STATICVIDEO,7,26,441,300,SS_SUNKEN
+    PUSHBUTTON      "Device",IDC_BUTTONDEVICE,456,7,50,16
+    PUSHBUTTON      "Settings",IDC_BUTTONIMAGESETTINGS,456,26,50,16,WS_DISABLED
+    PUSHBUTTON      "Live Start",IDC_BUTTONLIVEVIDEO,456,44,50,16,WS_DISABLED
+    LTEXT           "Static",IDC_STATICRECORDING,460,74,46,8
+    PUSHBUTTON      "AVI Settings",IDC_BUTTONAVISETTINGS,456,100,50,16
     LTEXT           "Click AVI Settings Button",IDC_STATICCODEC,7,7,98,10,SS_SUNKEN
     LTEXT           "Click AVI Settings Button",IDC_STATICFILENAME,111,7,261,10,SS_SUNKEN
-    CONTROL         "Polarity",IDC_CHECKPOLARITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,393,127,38,10
-    CONTROL         "While set",IDC_RADIOOPERATIONWHILESET,"Button",BS_AUTORADIOBUTTON,393,144,45,10
-    CONTROL         "Start Stop Signal",IDC_RADIOOPERATIONSIGNALS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,393,158,48,18
+    CONTROL         "Polarity",IDC_CHECKPOLARITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,458,127,38,10
+    CONTROL         "While set",IDC_RADIOOPERATIONWHILESET,"Button",BS_AUTORADIOBUTTON,458,144,45,10
+    CONTROL         "Start Stop Signal",IDC_RADIOOPERATIONSIGNALS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,458,158,48,18
 END
 
 
@@ -159,9 +159,9 @@ BEGIN
     IDD_InputControlledCamera_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 442
+        RIGHTMARGIN, 506
         TOPMARGIN, 7
-        BOTTOMMARGIN, 294
+        BOTTOMMARGIN, 326
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -188,7 +188,7 @@ BEGIN
     IDS_ABOUTBOX            "&About InputControlledCamera..."
 END
 
-#endif    // English (United States) resources
+#endif    // Englisch (USA) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
