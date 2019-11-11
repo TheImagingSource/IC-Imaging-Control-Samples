@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoLP Segmentation", "DoLP Segmentation\DoLP Segmentation.csproj", "{DAC90140-4417-4068-BB85-7B853312A6E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibPolarizationCamera", "LibPolarizationCamera\LibPolarizationCamera.csproj", "{C2F5118C-A948-4791-A385-7E015CDBD549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualization Modes", "Visualization Modes\Visualization Modes.csproj", "{20C5311E-27F2-47A9-8F12-F368481E2E64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAC90140-4417-4068-BB85-7B853312A6E4}.Debug|x86.ActiveCfg = Debug|x86
+		{DAC90140-4417-4068-BB85-7B853312A6E4}.Debug|x86.Build.0 = Debug|x86
+		{DAC90140-4417-4068-BB85-7B853312A6E4}.Release|x86.ActiveCfg = Release|x86
+		{DAC90140-4417-4068-BB85-7B853312A6E4}.Release|x86.Build.0 = Release|x86
+		{C2F5118C-A948-4791-A385-7E015CDBD549}.Debug|x86.ActiveCfg = Debug|x86
+		{C2F5118C-A948-4791-A385-7E015CDBD549}.Debug|x86.Build.0 = Debug|x86
+		{C2F5118C-A948-4791-A385-7E015CDBD549}.Release|x86.ActiveCfg = Release|x86
+		{C2F5118C-A948-4791-A385-7E015CDBD549}.Release|x86.Build.0 = Release|x86
+		{20C5311E-27F2-47A9-8F12-F368481E2E64}.Debug|x86.ActiveCfg = Debug|x86
+		{20C5311E-27F2-47A9-8F12-F368481E2E64}.Debug|x86.Build.0 = Debug|x86
+		{20C5311E-27F2-47A9-8F12-F368481E2E64}.Release|x86.ActiveCfg = Release|x86
+		{20C5311E-27F2-47A9-8F12-F368481E2E64}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {462A5D3E-3D47-49BC-9EE9-278224CE87A9}
+	EndGlobalSection
+EndGlobal
