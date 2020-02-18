@@ -49,6 +49,10 @@
   <ItemGroup>
     <Compile Include="FrameTypeHelper.cs" />
     <Compile Include="MediaSubtypes.cs" />
+    <Compile Include="PixelTypes\PPB1.cs" />
+    <Compile Include="PixelTypes\PPB2.cs" />
+    <Compile Include="PixelTypes\PPM2.cs" />
+    <Compile Include="PixelTypes\PPM1.cs" />
     <Compile Include="PixelTypes\ADC2.cs" />
     <Compile Include="PixelTypes\ADC1.cs" />
     <Compile Include="PixelTypes\ADI2.cs" />
