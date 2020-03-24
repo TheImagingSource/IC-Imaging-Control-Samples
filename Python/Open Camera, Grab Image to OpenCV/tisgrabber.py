@@ -25,6 +25,8 @@ class GrabberHandle(C.Structure):
     pass
 GrabberHandle._fields_ = [('unused', C.c_int)]
 
+
+
 class TIS_GrabberDLL(object):
     if sys.maxsize > 2**32 :
         __tisgrabber = C.windll.LoadLibrary("tisgrabber_x64.dll")
@@ -392,9 +394,23 @@ class TIS_GrabberDLL(object):
                             C.c_char_p,
                             C.c_char_p,
                             C.POINTER(C.c_float), )
+# ############################################################################
+    EnableCameraAutoProperty = __tisgrabber.IC_EnableAutoCameraProperty
+    EnableCameraAutoProperty.restype = C.c_int
+    EnableCameraAutoProperty.argtypes = (GrabberHandlePtr,
+                            C.c_int,
+                            C.c_int)
+    EnableVideoAutoProperty = __tisgrabber.IC_EnableAutoVideoProperty
+    EnableVideoAutoProperty.restype = C.c_int
+    EnableVideoAutoProperty.argtypes = (GrabberHandlePtr,
+                            C.c_int,
+                            C.c_int)
+
+
+# ############################################################################
 
     # definition of the frameready callback
-    FRAMEREADYCALLBACK = C.CFUNCTYPE(C.c_void_p,C.c_int, C.POINTER(C.c_ubyte), C.c_ulong,  C.py_object )
+    FRAMEREADYCALLBACK = C.CFUNCTYPE(C.c_void_p,C.c_int, C.POINTER(C.c_ubyte), C.c_ulong, C.py_object)
 
     # set callback function
     SetFrameReadyCallback = __tisgrabber.IC_SetFrameReadyCallback
@@ -730,3 +746,9 @@ class TIS_CAM(object):
             :returns: 1 on success, 0 otherwise.
             '''
             return TIS_GrabberDLL.OpenVideoCaptureDevice(self._handle, self.s(DeviceName))
+
+        def enableCameraAutoProperty(self, property, onoff):
+            return TIS_GrabberDLL.EnableCameraAutoProperty(self._handle,property,onoff)
+
+        def enableVideoAutoProperty(self, property, onoff):
+            return TIS_GrabberDLL.EnableVideoAutoProperty(self._handle,property,onoff)
