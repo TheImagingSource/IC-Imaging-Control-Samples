@@ -1,0 +1,17 @@
+﻿<Window x:Class="ICWPF_VideoWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" xmlns:my="clr-namespace:ICWPF_VideoWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47" />
+            <RowDefinition Height="262*" />
+        </Grid.RowDefinitions>
+        <my:VideoWindow Grid.Row="1"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        x:Name="videoWindow1"/>
+        <Button Content="Select Device..." Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="btnSelectDevice" VerticalAlignment="Top" Width="109" Click="btnSelectDevice_Click" />
+        <CheckBox Content="Flip Horizontal" Height="16" HorizontalAlignment="Left" Margin="177,16,0,0" Name="chkFlipH" VerticalAlignment="Top" Checked="chkFlipH_Checked" Unchecked="chkFlipH_Unchecked" />
+        <CheckBox Content="Flip Vertical" Height="16" HorizontalAlignment="Left" Margin="277,16,0,0" Name="chkFlipV" VerticalAlignment="Top" Width="99" Checked="chkFlipV_Checked" Unchecked="chkFlipV_Unchecked" />
+    </Grid>
+</Window>
