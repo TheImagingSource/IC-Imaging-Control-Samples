@@ -108,6 +108,7 @@ class CallbackUserdata(C.Structure):
     def __init__(self):
         self.Value1 = 42
         self.Value2 = 0
+        self.camera = None # Reference to the camera object
 
 Userdata = CallbackUserdata()    
 ```
@@ -132,10 +133,22 @@ def Callback(hGrabber, pBuffer, framenumber, pData):
          incremented by one.
     """
     pData.Value1 = pData.Value1 + 1
-    IC.TIS_GrabberDLL.SaveImage(hGrabber, s("test" +str(framenumber)+".jpg"), IC.ImageFileTypes["JPEG"], 75)
-```
-In this sample, the functions in the TIS_GrabberDLL are called directly, passing by the camera class. Also there is something done with the user data.
+    # Get the used image format from our camera object
+    Imageformat = pData.camera.GetImageDescription()[:3]
 
+    buffersize= Imageformat[0] * Imageformat[1] * int(Imageformat[2]/8)
+    if buffersize > 0:
+        # Convert image to OpenCV for saving to JPEG file
+        image = C.cast(pBuffer, C.POINTER(C.c_ubyte * buffersize))
+
+        cvMat = np.ndarray(buffer = image.contents,
+                            dtype = np.uint8,
+                            shape = (Imageformat[1], # Width
+                                    Imageformat[0],  # Height
+                                    Imageformat[2]//8))
+        cvMat = cv2.flip(cvMat,0)
+        cv2.imwrite("test" +str(framenumber)+".jpg",cvMat )
+```
 
 ### Callback sample for using the pBuffer parameter for image processing
 This sample converts the data of pBuffer into a cv::Mat for image processing. Therefore, the information about the iamge size and type is saved in user data. A struct is created for this first:
