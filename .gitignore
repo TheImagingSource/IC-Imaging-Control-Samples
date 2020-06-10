@@ -1,0 +1,31 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+.vs/
+obj/
+ipch/
+Debug/
+Release/
+
+/bin/
+/wizards/IWizard/bin/
+
+*.vcxproj.user
+*.csproj.user
+*.db
+*.opendb
+*.aps
+
+core/dshowlib/VCDProperty_h\.h
+core/dshowlib/VCDProperty_i\.c
+
+*.suo
+*.sdf
+*.opensdf
+*.bak
+
+lastSelectedDeviceState.xml
+
+#Re-enable the packages debug directories
+!/core/packages/vcpkg-export-20190129-094931.1.0.0/**/Debug/

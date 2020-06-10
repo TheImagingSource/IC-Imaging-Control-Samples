@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Capturing an AVI File", "Capturing an AVI File\Capturing an AVI File.vbproj", "{79999E6E-EC62-4287-91F7-5F4E94F8DABA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79999E6E-EC62-4287-91F7-5F4E94F8DABA}.Debug|x86.ActiveCfg = Debug|x86
+		{79999E6E-EC62-4287-91F7-5F4E94F8DABA}.Debug|x86.Build.0 = Debug|x86
+		{79999E6E-EC62-4287-91F7-5F4E94F8DABA}.Release|x86.ActiveCfg = Release|x86
+		{79999E6E-EC62-4287-91F7-5F4E94F8DABA}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
