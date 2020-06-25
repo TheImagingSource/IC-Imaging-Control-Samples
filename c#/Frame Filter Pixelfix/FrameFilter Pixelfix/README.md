@@ -16,18 +16,18 @@ After starting "FrameFilter Pixelfix" the program shows up as follows:
 
 
 A click on "Device" button shows the device selction dialog:
-- ![Device Dialog](DeviceDialog.png "Device Dialog")
+- ![Device Dialog](DeviceDialog.PNG "Device Dialog")
 
 After a video capture device was selected, the "Start Live" button is clicked. The video looks as shown in the next image:
 
-- ![BeforeFix](BeforeFix.png "BeforeFix")
+- ![BeforeFix](BeforeFix.PNG "BeforeFix")
 
 High gain and long exposure time will amplify the hot pixels.
 
 ### Apply Pixelfix
 If the checkbox "Apply Pixelfix" is checked, the pixel fix frame filter becomes active and the visible number of hot pixel should be reduced significantly:
  
-- ![AfterFix](AfterFix.png "AfterFix")
+- ![AfterFix](AfterFix.PNG "AfterFix")
 
 ## How to use in an own C# program
 
