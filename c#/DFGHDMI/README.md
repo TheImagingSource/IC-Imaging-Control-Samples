@@ -4,7 +4,7 @@ This C# programming example shows how to set the video format of the [DFG/HDMI](
 
 ![Program](./hdmi.png)
 
-The image shows the HDMI output of a TX Nano shown on a Windows computer.
+The image shows the HDMI output of a TX Nano converted on a Windows computer.
 
 Required:
  * The Imaging Source [DFG/HDMI](https://www.theimagingsource.com/products/converters-grabbers/hdmi-to-usb-converters/dfghdmi/)
