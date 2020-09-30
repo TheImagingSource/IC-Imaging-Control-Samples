@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFGHDMI", "DFGHDMI\DFGHDMI.csproj", "{7B653F09-E9FF-4E4A-BDE9-78E3BEDB10DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B653F09-E9FF-4E4A-BDE9-78E3BEDB10DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B653F09-E9FF-4E4A-BDE9-78E3BEDB10DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B653F09-E9FF-4E4A-BDE9-78E3BEDB10DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B653F09-E9FF-4E4A-BDE9-78E3BEDB10DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {392A22E5-1A33-42FA-AAB4-CB5B4E76689F}
+	EndGlobalSection
+EndGlobal
