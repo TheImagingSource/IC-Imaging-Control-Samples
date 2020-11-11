@@ -10,7 +10,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDAbsoluteValueProperty Property;
-		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_AbsoluteValue);
+		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_AbsoluteValue);
 
 		if( Property != null )
 			return true;
@@ -30,7 +30,7 @@
             throw new System.Exception("Black_Level : No device selected");
 
         VCDAbsoluteValueProperty Property;
-		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_AbsoluteValue);
+		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_AbsoluteValue);
 
         if (Property != null)
         {
@@ -51,7 +51,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDAbsoluteValueProperty Property;
-		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_AbsoluteValue);
+		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_AbsoluteValue);
 
 		if( Property != null )
 		{
@@ -78,7 +78,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDAbsoluteValueProperty Property;
-		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_AbsoluteValue);
+		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_AbsoluteValue);
 
 		if( Property != null )
 		{
@@ -99,7 +99,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDAbsoluteValueProperty Property;
-		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_AbsoluteValue);
+		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_AbsoluteValue);
 
 		if( Property != null )
 		{
@@ -121,7 +121,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDAbsoluteValueProperty Property;
-		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_AbsoluteValue);
+		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_AbsoluteValue);
 
 		if( Property != null )
 		{
@@ -143,7 +143,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDAbsoluteValueProperty Property;
-		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_AbsoluteValue);
+		Property = (VCDAbsoluteValueProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_AbsoluteValue);
 
 		if( Property != null )
 		{

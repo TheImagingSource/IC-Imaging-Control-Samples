@@ -123,7 +123,7 @@
 				else
 				{
 					ErrorMessage += L"\".";
-					std::string s(CW2A(ErrorMessage.c_str()));
+					std::string s(DShowLib::wstoas(ErrorMessage.c_str()));
 
 					throw ICPropertyException(s);
 				}

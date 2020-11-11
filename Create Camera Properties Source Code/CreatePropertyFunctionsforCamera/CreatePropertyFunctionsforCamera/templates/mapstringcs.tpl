@@ -9,7 +9,7 @@
             throw new System.Exception("#name# : No device selected");
 
         VCDMapStringsProperty Property;
-        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_MapStrings);
+        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_MapStrings);
 
         if (Property != null)
             return true;
@@ -29,7 +29,7 @@
             throw new System.Exception("#name : No device selected");
 
         VCDMapStringsProperty Property;
-        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_MapStrings);
+        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_MapStrings);
 
         if (Property != null)
         {
@@ -52,7 +52,7 @@
             throw new System.Exception("#name : No device selected");
 
         VCDMapStringsProperty Property;
-        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_MapStrings);
+        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_MapStrings);
 
         if (Property != null)
         {
@@ -74,7 +74,7 @@
             throw new System.Exception("#name : No device selected");
 
         VCDMapStringsProperty Property;
-        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_MapStrings);
+        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_MapStrings);
 
         if (Property != null)
         {
@@ -105,7 +105,7 @@
             throw new System.Exception("#name : No device selected");
 
         VCDMapStringsProperty Property;
-        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_MapStrings);
+        Property = (VCDMapStringsProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_MapStrings);
 
         if (Property != null)
         {

@@ -10,7 +10,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDSwitchProperty Property;
-		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Switch);
+		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Switch);
 
 		if( Property != null )
 			return true;
@@ -30,7 +30,7 @@
             throw new System.Exception("#name# : No device selected");
 
         VCDSwitchProperty Property;
-		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Switch);
+		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Switch);
 
         if (Property != null)
         {
@@ -51,7 +51,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDSwitchProperty Property;
-		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Switch);
+		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Switch);
 
 		if( Property != null )
 		{
@@ -75,7 +75,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDSwitchProperty Property;
-		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Switch);
+		Property = (VCDSwitchProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Switch);
 
 		if( Property != null )
 		{

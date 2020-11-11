@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <projects>
   <itfmaps>
-    <itfmap id="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" name="absolute"/>
-    <itfmap id="{99B44940-BFE1-4083-ADA1-BE703F4B8E05}" name="button"/>
-    <itfmap id="{99B44940-BFE1-4083-ADA1-BE703F4B8E06}" name="mapstrings"/>
-    <itfmap id="{99B44940-BFE1-4083-ADA1-BE703F4B8E03}" name="range"/>
-    <itfmap id="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" name="switch"/>
+    <itfmap id="99B44940-BFE1-4083-ADA1-BE703F4B8E08" name="absolute"/>
+    <itfmap id="99B44940-BFE1-4083-ADA1-BE703F4B8E05" name="button"/>
+    <itfmap id="99B44940-BFE1-4083-ADA1-BE703F4B8E06" name="mapstrings"/>
+    <itfmap id="99B44940-BFE1-4083-ADA1-BE703F4B8E03" name="range"/>
+    <itfmap id="99B44940-BFE1-4083-ADA1-BE703F4B8E04" name="switch"/>
   </itfmaps>
   <project name="cs">
     <main name="icproperties.cs" template="templates\icpropertiescs.tpl"/>

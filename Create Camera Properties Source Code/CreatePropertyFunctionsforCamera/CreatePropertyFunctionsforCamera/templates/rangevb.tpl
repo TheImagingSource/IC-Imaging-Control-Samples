@@ -10,7 +10,7 @@
 			Throw new System.Exception("#name# : No device selected")
 		End If 
 
-		DevProperty = ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range)
+		DevProperty = ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range)
 
 		If Not DevProperty Is Nothing Then
 			Return True
@@ -31,7 +31,7 @@
 			Throw new System.Exception("#name# : No device selected")
 		End If 
 
-		DevProperty = ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range)
+		DevProperty = ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range)
 
 		If Not DevProperty Is Nothing Then
             Return DevProperty.ReadOnly
@@ -52,7 +52,7 @@
 			Throw new System.Exception("#name# : No device selected")
 		End If 
 
-		DevProperty = ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range)
+		DevProperty = ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range)
 
 		If Not DevProperty Is Nothing Then
 			If DevProperty.ReadOnly Then
@@ -80,7 +80,7 @@
 			Throw new System.Exception("#name# : No device selected")
 		End If 
 
-		DevProperty = ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range)
+		DevProperty = ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range)
 
 		If Not DevProperty Is Nothing Then
 			Return DevProperty.Value
@@ -101,7 +101,7 @@
 			Throw new System.Exception("#name# : No device selected")
 		End If 
 
-		DevProperty = ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range)
+		DevProperty = ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range)
 
 		If Not DevProperty Is Nothing Then
 			Return DevProperty.Default
@@ -122,7 +122,7 @@
 			Throw new System.Exception("#name# : No device selected")
 		End If 
 
-		DevProperty = ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range)
+		DevProperty = ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range)
 
 		If Not DevProperty Is Nothing Then
 			Return DevProperty.RangeMin
@@ -145,7 +145,7 @@
 			Throw new System.Exception("#name# : No device selected")
 		End If 
 
-		DevProperty = ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range)
+		DevProperty = ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range)
 
 		If Not DevProperty Is Nothing Then
 			Return DevProperty.RangeMax

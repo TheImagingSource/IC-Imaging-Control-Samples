@@ -10,7 +10,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDButtonProperty Property;
-		Property = (VCDButtonProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Button);
+		Property = (VCDButtonProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Button);
 
 		if( Property != null )
 			return true;
@@ -30,7 +30,7 @@
             throw new System.Exception("Black_Level : No device selected");
 
         VCDButtonProperty Property;
-		Property = (VCDButtonProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Button);
+		Property = (VCDButtonProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Button);
 
         if (Property != null)
         {
@@ -51,7 +51,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDButtonProperty Property;
-		Property = (VCDButtonProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Button);
+		Property = (VCDButtonProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Button);
 
 		if( Property != null )
 		{

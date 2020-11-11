@@ -100,8 +100,6 @@ namespace CreatePropertyFunctionsforCamera
 
             Project p = new Project(main.Attributes["name"].Value.ToString(), main.Attributes["template"].Value.ToString());
 
-
-
             XmlNodeList InterfaceList = projectNode.SelectNodes("interfaces/interface");
             foreach(XmlElement InterfaceNode in InterfaceList)
             {
@@ -155,16 +153,16 @@ namespace CreatePropertyFunctionsforCamera
         {
             string Templatename = "";
 
-            if (_InterfaceMap.TryGetValue(itf.InterfaceID, out Templatename))
+            if (_InterfaceMap.TryGetValue(itf.InterfaceGUID.ToString().ToUpper(), out Templatename))
             {
-                Templatename = project.GetTemplateFileName(_InterfaceMap[itf.InterfaceID]);
+                Templatename = project.GetTemplateFileName(_InterfaceMap[itf.InterfaceGUID.ToString().ToUpper()]);
                 String PropertyName = getPropertyName(itf.Parent);
 
                 string Template = File.ReadAllText(Templatename);
                 Template = Template.Replace("#name#", PropertyName);
-                Template = Template.Replace("#itemid#", itf.Parent.Parent.ItemID);
+                Template = Template.Replace("#itemid#", itf.Parent.Parent.ItemGUID.ToString());
 
-                Template = Template.Replace("#elementid#", itf.Parent.ElementID);
+                Template = Template.Replace("#elementid#", itf.Parent.ElementGUID.ToString());
 
                 project.AddCode(Template);
             }
@@ -174,14 +172,14 @@ namespace CreatePropertyFunctionsforCamera
         {
             String Name = "";
             var map = new Dictionary<string, string>();
-            map.Add( "{284C0E0D-010B-45BF-8291-09D90A459B28}:{B57D3002-0AC6-4819-A609-272A33140ACA}", "WhiteBalance_One_Push");
-            map.Add( "{284C0E0D-010B-45BF-8291-09D90A459B28}:{ 6519038B-1AD8-4E91-9021-66D64090CC85}", "WhiteBalance_Red");
-            map.Add( "{284C0E0D-010B-45BF-8291-09D90A459B28}:{8407E480-175A-498C-8171-08BD987CC1AC}","WhiteBalance_Green");
-            map.Add( "{284C0E0D-010B-45BF-8291-09D90A459B28}:{6519038A-1AD8-4E91-9021-66D64090CC85}","WhiteBalance_Blue");
-            map.Add("{90D5702E-E43B-4366-AAEB-7A7A10B448B4}:{65190390-1AD8-4E91-9021-66D64090CC85}", "Exposure_MaxAutoAuto");
+            map.Add( "284C0E0D-010B-45BF-8291-09D90A459B28:B57D3002-0AC6-4819-A609-272A33140ACA", "WhiteBalance_One_Push");
+            map.Add( "284C0E0D-010B-45BF-8291-09D90A459B28:6519038B-1AD8-4E91-9021-66D64090CC85", "WhiteBalance_Red");
+            map.Add( "284C0E0D-010B-45BF-8291-09D90A459B28:8407E480-175A-498C-8171-08BD987CC1AC","WhiteBalance_Green");
+            map.Add( "284C0E0D-010B-45BF-8291-09D90A459B28:6519038A-1AD8-4E91-9021-66D64090CC85","WhiteBalance_Blue");
+            map.Add( "90D5702E-E43B-4366-AAEB-7A7A10B448B4:65190390-1AD8-4E91-9021-66D64090CC85", "Exposure_MaxAutoAuto");
 
             string mapValue;
-            if (map.TryGetValue(Element.Parent.ItemID.ToString() + ":" + Element.ElementID.ToString(), out mapValue))
+            if (map.TryGetValue(Element.Parent.ItemGUID.ToString().ToUpper() + ":" + Element.ElementGUID.ToString().ToUpper(), out mapValue))
             {
                 Name = mapValue;
             }

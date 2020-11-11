@@ -10,7 +10,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDRangeProperty Property;
-		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range);
+		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range);
 
 		if( Property != null )
 			return true;
@@ -31,7 +31,7 @@
             throw new System.Exception("Black_Level : No device selected");
 
         VCDRangeProperty Property;
-		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range);
+		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range);
 
         if (Property != null)
         {
@@ -52,7 +52,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDRangeProperty Property;
-		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range);
+		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range);
 
 		if( Property != null )
 		{
@@ -79,7 +79,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDRangeProperty Property;
-		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range);
+		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range);
 
 		if( Property != null )
 		{
@@ -101,7 +101,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDRangeProperty Property;
-		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range);
+		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range);
 
 		if( Property != null )
 		{
@@ -123,7 +123,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDRangeProperty Property;
-		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range);
+		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range);
 
 		if( Property != null )
 		{
@@ -145,7 +145,7 @@
 			throw new System.Exception("#name# : No device selected");
 
 		VCDRangeProperty Property;
-		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface("#itemid#", "#elementid#", VCDIDs.VCDInterface_Range);
+		Property = (VCDRangeProperty)ic.VCDPropertyItems.FindInterface(new Guid("#itemid#"), new Guid("#elementid#"), VCDGUIDs.VCDInterface_Range);
 
 		if( Property != null )
 		{
