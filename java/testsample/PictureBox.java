@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
-class PictureBox extends JComponent {
+public class PictureBox extends JComponent {
     private static final long serialVersionUID = 1L;
     public BufferedImage Image;
 

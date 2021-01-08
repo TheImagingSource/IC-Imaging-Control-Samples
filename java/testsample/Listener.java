@@ -1,8 +1,8 @@
-import ic.*;
-import java.awt.*;
+//import java.awt.*;
 import java.awt.image.BufferedImage;
+import ic.*;
 
-public class Listener extends ic.GrabberListener{
+public class Listener extends GrabberListener{
 
     private int i = 0; 
 

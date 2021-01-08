@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import ic.*;
+import java.util.List;
 
 /*
 Ceate a Java archive:
@@ -37,6 +38,8 @@ public class test1 extends JFrame{
     JLabel _Gainvalue;
     JCheckBox _GainAuto;
     JCheckBox _TriggerMode;
+    JButton _SoftwareTrigger;
+
     PictureBox _PictureBox;
 
     // Gain and Exposure are double values (Not for all, but most cameras.)
@@ -116,6 +119,9 @@ public class test1 extends JFrame{
         _TriggerMode = new JCheckBox("Trigger Mode");
         _TriggerMode.setBounds(5,y+=40,100,30);  
 
+        _SoftwareTrigger = new JButton("Software Trigger");  
+        _SoftwareTrigger.setBounds(110,y,130,30);  
+        _SoftwareTrigger.setEnabled(false);
 
         this.add(_ExposureLabel);
         this.add(_ExposureSlider);
@@ -128,6 +134,7 @@ public class test1 extends JFrame{
         this.add(_GainAuto);
 
         this.add(_TriggerMode);
+        this.add(_SoftwareTrigger);
 
         this.add(_SelectDevice);
         this.add(_DeviceProperties);
@@ -195,7 +202,7 @@ public class test1 extends JFrame{
             public void actionPerformed(ActionEvent e){  
                 if( _grabber.isDevValid()){
                     _sink.snapImages(1, 1000);
-                    MemBuffer m = _sink.getLastAcqMemBuffer();
+                    ic.MemBuffer m = _sink.getLastAcqMemBuffer();
                     m.save("test.bmp");
                     }  
                 }
@@ -208,6 +215,7 @@ public class test1 extends JFrame{
                   boolean selected = abstractButton.getModel().isSelected();
                   try{
                     _grabber.PropertySet("Trigger Mode",selected);
+                    _SoftwareTrigger.setEnabled(selected);
                   }
                   catch(Exception ex){
                       System.out.println(ex.getMessage());
@@ -215,7 +223,28 @@ public class test1 extends JFrame{
                 }
               });
 
+        _SoftwareTrigger.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){  
+                    try
+                    {
+                        _grabber.PropertySet("Trigger_Software Trigger");
+                    }
+                    catch(Exception ex)
+                    {
+                        System.out.println(ex.getMessage());
+                    }
 
+                    /*System.out.println("Software Trigger");
+                    System.out.println("Available Properties:");
+
+                    for(String pn : _grabber.getAvailableProperties())
+                    {
+                        System.out.println((pn));
+                    }*/
+
+               }  
+               });  
+    
         _ExposureAuto.addActionListener( new ActionListener() {
         public void actionPerformed(ActionEvent actionEvent) {
             AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
@@ -270,12 +299,12 @@ public class test1 extends JFrame{
 
         if(_grabber.isDevValid()){
             if( _grabber.getProperties() > 0){
-                /*System.out.println("Available Properties:");
+                /*
+                System.out.println("Available Properties:");
                 for(String pn : _grabber.getAvailableProperties()){
                     System.out.println((pn));
                 }*/
                 setupPropertyControls();
-                this.setTitle("Device opened!");
             }
 
         }
@@ -424,6 +453,7 @@ public class test1 extends JFrame{
 
     public static void main(String[] args)
     {
+        //JOptionPane.showMessageDialog(null, "Connect debugger");
         new test1();
     }
 }
