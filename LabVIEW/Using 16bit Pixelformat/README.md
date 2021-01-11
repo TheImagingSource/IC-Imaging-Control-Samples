@@ -11,8 +11,10 @@ The `Y16byDeviceXML.vi` handles Y16 video format only. All other video formats w
   
 ## Create a device state xml
 ![Blockdiagram](xmlcreator.png)
-Start the program `CreateDeviceXML.exe` and configure the camera accordingly. Click the "File" and select "Save Configuration" in order to save the device state.
-Of course this program can be used for creating device state xml files with color formats for use with other programs which load such an configuration file. Not only LabVIEW, but also other IC Imaging Control using programs.
+
+Start the program `CreateDeviceXML.exe` and configure the camera accordingly. Click the "File" and select "Save Configuration" in order to save the device state. (The zoom level is not saved!
+
+Of course this program can be used for creating device state xml files with color formats for use with other programs which load such an configuration file. Not only LabVIEW, but also other IC Imaging Control using programs. )
 
 ## Load in LabVIEW
 ![Blockdiagram](blockdiagram.png)
