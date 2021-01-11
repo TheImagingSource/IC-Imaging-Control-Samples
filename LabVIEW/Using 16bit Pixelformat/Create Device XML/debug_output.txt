@@ -1,0 +1,172 @@
+
+[UDSHL] Session started : 01/11/21 13:24:37
+[UDSHL]
+[UDSHL] Environment : os-ver=6.2 os-sp="" os-arch=AMD64 IsWow64=1
+[UDSHL] Executable path="D:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\LabVIEW\Using 16bit Pixelformat\Create Device XML\CreateDeviceXML.exe" Version=1.4.0.11
+[UDSHL] Current working dir="d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\LabVIEW\Using 16bit Pixelformat\Create Device XML"
+[UDSHL] Module="D:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\LabVIEW\Using 16bit Pixelformat\Create Device XML\TIS_UDSHL12.dll" Version="3.5.6.4008"
+CurSink set to a new sink.
+Found device. display name : @device:pnp:\\?\usb#vid_199e&pid_0109&mi_00#7&1ab874c1&2&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\global friendly name : DFK ECU010-M12
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DFK ECU010-M12
+Assigning device to available list. display name : @device:pnp:\\?\usb#vid_199e&pid_0109&mi_00#7&1ab874c1&2&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\global friendly name : 
+Found device. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{05455815-D377-4E57-9E86-3A749AD15B05} friendly name : DMK 33GX264
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DMK 33GX264
+Assigning device to available list. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{05455815-D377-4E57-9E86-3A749AD15B05} friendly name : 
+Found device. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37} friendly name : DFK 38UX304
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DFK 38UX304
+Assigning device to available list. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37} friendly name : 
+Found device. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{A85D77B5-431D-48C9-B228-ED51BEAEC90B} friendly name : DFK Z30GP031
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DFK Z30GP031
+Assigning device to available list. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{A85D77B5-431D-48C9-B228-ED51BEAEC90B} friendly name : 
+Opening device : DFK 38UX304
+Building new graph
+ CMediaEvent Thread started
+New graph built
+setVideoFormat succeeded with the format = YUY2 (4096x3000)
+setVideoFormat succeeded with the format = Y16 (640x480)
+Loading VCD Properties...
+VCD Properties successfully loaded
+enter Grabber::startLive( 1 )
+Called udshl::grabber_backend::graph_state_init_to_build ( 1 )
+VideoCaptureDevice : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37}
+Input VideoFormat : Y16 (640x480)
+insertSrcTransform() called
+insertSrcTransform() returns succesfully
+Inserting OverlayBitmapFilter
+out connect OverlayBitmapFilter
+OverlayBitmapFilter connected
+insertVideoRenderer() called
+insertVideoRenderer() returns succesfully
+Exiting successfully udshl::grabber_backend::graph_state_init_to_build. Exit VideoFormat : Y16 (640x480)
+prepare_and_start_graph, Graph started:
+>> Graph:
+<Filter id="Video Renderer" clsid ="{70E102B0-5556-11CE-97C0-00AA0055595A}" />
+<Filter id="Null Renderer" clsid ="{C1F400A4-3F08-11D3-9F0B-006008039E37}" />
+<Filter id="0002" clsid ="{4CB4FBB2-1342-48FE-8129-5A7C4706D60C}" />
+<Filter id="MediaSampleGrabber" clsid ="{33873EDD-7010-46D0-903C-690555B04FF9}" />
+<Filter id="0001" clsid ="{4CB4FBB2-1342-48FE-8129-5A7C4706D60C}" />
+<Filter id="Smart Tee Filter" clsid ="{CC58E280-8AA1-11D1-B3F1-00AA003761C5}" />
+<Filter id="Ovlip" clsid ="{C40C3DCF-C2AE-4381-818C-EA08F9527A2B}" />
+<Filter id="FixFilter" clsid ="{35ED1539-BF18-41F6-86D3-2AFD93A45303}" />
+<Filter id="DFK 38UX304" clsid ="{9A49A4A3-7000-489B-80AE-B41A781A4CFB}" />
+
+|>'DFK 38UX304':'Output' => 'In':'FixFilter':'Out' => 'In':'Ovlip':'Out' => 'Input':'Smart Tee Filter':'Capture' => 'In':'0001':'Out' => 'In':'MediaSampleGrabber':'Out' => 'In':'Null Renderer' <|
+'Smart Tee Filter':'Preview' => 'In':'0002':'Out' => 'In':'Video Renderer' <|
+
+<< Graph
+prepare_and_start_graph ended succesfully
+destroyed device @device:pnp:\\?\usb#vid_199e&pid_0109&mi_00#7&1ab874c1&2&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\global
+destroyed device @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{05455815-D377-4E57-9E86-3A749AD15B05}
+destroyed device @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37}
+destroyed device @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{A85D77B5-431D-48C9-B228-ED51BEAEC90B}
+ CMediaEvent Thread ended
+
+[UDSHL] Session ended : 01/11/21 13:28:59
+[UDSHL]
+
+[UDSHL] Session started : 01/11/21 14:09:03
+[UDSHL]
+[UDSHL] Environment : os-ver=6.2 os-sp="" os-arch=AMD64 IsWow64=1
+[UDSHL] Executable path="D:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\LabVIEW\Using 16bit Pixelformat\Create Device XML\CreateDeviceXML.exe" Version=1.4.0.11
+[UDSHL] Current working dir="d:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\LabVIEW\Using 16bit Pixelformat\Create Device XML"
+[UDSHL] Module="D:\Source\samples\IC-Imaging-Control-Samples (GitHub Desktop)\LabVIEW\Using 16bit Pixelformat\Create Device XML\TIS_UDSHL12.dll" Version="3.5.6.4008"
+CurSink set to a new sink.
+Found device. display name : @device:pnp:\\?\usb#vid_199e&pid_0109&mi_00#7&1ab874c1&2&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\global friendly name : DFK ECU010-M12
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DFK ECU010-M12
+Assigning device to available list. display name : @device:pnp:\\?\usb#vid_199e&pid_0109&mi_00#7&1ab874c1&2&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\global friendly name : 
+Found device. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{05455815-D377-4E57-9E86-3A749AD15B05} friendly name : DMK 33GX264
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DMK 33GX264
+Assigning device to available list. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{05455815-D377-4E57-9E86-3A749AD15B05} friendly name : 
+Found device. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37} friendly name : DFK 38UX304
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DFK 38UX304
+Assigning device to available list. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37} friendly name : 
+Found device. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{A85D77B5-431D-48C9-B228-ED51BEAEC90B} friendly name : DFK Z30GP031
+CSourceFilterType : createInstanceItf succeeded.
+CSourceFilterType : rebind called for DFK Z30GP031
+Assigning device to available list. display name : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{A85D77B5-431D-48C9-B228-ED51BEAEC90B} friendly name : 
+Opening device : DFK 38UX304
+Building new graph
+ CMediaEvent Thread started
+New graph built
+setVideoFormat succeeded with the format = YUY2 (4096x3000)
+setVideoFormat succeeded with the format = Y800 (1024x768)
+Loading VCD Properties...
+VCD Properties successfully loaded
+enter Grabber::startLive( 1 )
+Called udshl::grabber_backend::graph_state_init_to_build ( 1 )
+VideoCaptureDevice : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37}
+Input VideoFormat : Y800 (1024x768)
+insertSrcTransform() called
+insertSrcTransform() returns succesfully
+Inserting OverlayBitmapFilter
+out connect OverlayBitmapFilter
+OverlayBitmapFilter connected
+insertVideoRenderer() called
+insertVideoRenderer() returns succesfully
+Exiting successfully udshl::grabber_backend::graph_state_init_to_build. Exit VideoFormat : Y800 (1024x768)
+prepare_and_start_graph, Graph started:
+>> Graph:
+<Filter id="Video Renderer" clsid ="{70E102B0-5556-11CE-97C0-00AA0055595A}" />
+<Filter id="Null Renderer" clsid ="{C1F400A4-3F08-11D3-9F0B-006008039E37}" />
+<Filter id="0002" clsid ="{4CB4FBB2-1342-48FE-8129-5A7C4706D60C}" />
+<Filter id="MediaSampleGrabber" clsid ="{33873EDD-7010-46D0-903C-690555B04FF9}" />
+<Filter id="0001" clsid ="{4CB4FBB2-1342-48FE-8129-5A7C4706D60C}" />
+<Filter id="Smart Tee Filter" clsid ="{CC58E280-8AA1-11D1-B3F1-00AA003761C5}" />
+<Filter id="Ovlip" clsid ="{C40C3DCF-C2AE-4381-818C-EA08F9527A2B}" />
+<Filter id="FixFilter" clsid ="{35ED1539-BF18-41F6-86D3-2AFD93A45303}" />
+<Filter id="DFK 38UX304" clsid ="{9A49A4A3-7000-489B-80AE-B41A781A4CFB}" />
+
+|>'DFK 38UX304':'Output' => 'In':'FixFilter':'Out' => 'In':'Ovlip':'Out' => 'Input':'Smart Tee Filter':'Capture' => 'In':'0001':'Out' => 'In':'MediaSampleGrabber':'Out' => 'In':'Null Renderer' <|
+'Smart Tee Filter':'Preview' => 'In':'0002':'Out' => 'In':'Video Renderer' <|
+
+<< Graph
+prepare_and_start_graph ended succesfully
+calling stop graph
+called stop graph
+Building new graph
+New graph built
+setVideoFormat succeeded with the format = Y16 (640x480) [Binning 2x]
+enter Grabber::startLive( 1 )
+Called udshl::grabber_backend::graph_state_init_to_build ( 1 )
+VideoCaptureDevice : @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37}
+Input VideoFormat : Y16 (640x480) [Binning 2x]
+insertSrcTransform() called
+insertSrcTransform() returns succesfully
+Inserting OverlayBitmapFilter
+out connect OverlayBitmapFilter
+OverlayBitmapFilter connected
+insertVideoRenderer() called
+insertVideoRenderer() returns succesfully
+Exiting successfully udshl::grabber_backend::graph_state_init_to_build. Exit VideoFormat : Y16 (640x480) [Binning 2x]
+prepare_and_start_graph, Graph started:
+>> Graph:
+<Filter id="Video Renderer" clsid ="{70E102B0-5556-11CE-97C0-00AA0055595A}" />
+<Filter id="Null Renderer" clsid ="{C1F400A4-3F08-11D3-9F0B-006008039E37}" />
+<Filter id="0004" clsid ="{4CB4FBB2-1342-48FE-8129-5A7C4706D60C}" />
+<Filter id="MediaSampleGrabber" clsid ="{33873EDD-7010-46D0-903C-690555B04FF9}" />
+<Filter id="0003" clsid ="{4CB4FBB2-1342-48FE-8129-5A7C4706D60C}" />
+<Filter id="Smart Tee Filter" clsid ="{CC58E280-8AA1-11D1-B3F1-00AA003761C5}" />
+<Filter id="Ovlip" clsid ="{C40C3DCF-C2AE-4381-818C-EA08F9527A2B}" />
+<Filter id="FixFilter" clsid ="{35ED1539-BF18-41F6-86D3-2AFD93A45303}" />
+<Filter id="DFK 38UX304" clsid ="{9A49A4A3-7000-489B-80AE-B41A781A4CFB}" />
+
+|>'DFK 38UX304':'Output' => 'In':'FixFilter':'Out' => 'In':'Ovlip':'Out' => 'Input':'Smart Tee Filter':'Capture' => 'In':'0003':'Out' => 'In':'MediaSampleGrabber':'Out' => 'In':'Null Renderer' <|
+'Smart Tee Filter':'Preview' => 'In':'0004':'Out' => 'In':'Video Renderer' <|
+
+<< Graph
+prepare_and_start_graph ended succesfully
+destroyed device @device:pnp:\\?\usb#vid_199e&pid_0109&mi_00#7&1ab874c1&2&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\global
+destroyed device @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{05455815-D377-4E57-9E86-3A749AD15B05}
+destroyed device @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{248CFCE7-C9E0-4B0B-8BEB-90395BA16C37}
+destroyed device @device:sw:{860BB310-5D01-11D0-BD3B-00A0C911CE86}\{A85D77B5-431D-48C9-B228-ED51BEAEC90B}
+ CMediaEvent Thread ended
+
+[UDSHL] Session ended : 01/11/21 14:09:44
+[UDSHL]
