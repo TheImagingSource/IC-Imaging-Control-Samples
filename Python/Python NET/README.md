@@ -2,7 +2,8 @@
 
 ## Requirements
 * IC Imaging Control 3.5
-* Python 3.5
+* The Imaging Source camera or video capture device
+* Python 3.7
 * pyqt5
 * pythonnet http://pythonnet.github.io/
 
