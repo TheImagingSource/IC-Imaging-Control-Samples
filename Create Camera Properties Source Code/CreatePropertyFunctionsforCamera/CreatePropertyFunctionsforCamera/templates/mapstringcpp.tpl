@@ -11,7 +11,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
 		if( pProperty != NULL )
 		{
@@ -31,7 +31,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
         if (pProperty != NULL)
         {
@@ -52,7 +52,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
 		if( pProperty != NULL )
 		{
@@ -96,7 +96,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
 		if( pProperty != NULL )
 		{
@@ -146,7 +146,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
 		if( pProperty != NULL )
 		{
@@ -167,7 +167,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
 		if( pProperty != NULL )
 		{
@@ -189,7 +189,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
 		if( pProperty != NULL )
 		{
@@ -211,7 +211,7 @@
 
 		DShowLib::tIVCDMapStringsPropertyPtr   pProperty;
 		DShowLib::tIVCDPropertyItemsPtr pItems = pGrabber->getAvailableVCDProperties();
-		pItems->findInterfacePtr(DShowLib::StringToGUID(L"#itemid#"), DShowLib::StringToGUID(L"#elementid#"),pProperty);
+		pItems->findInterfacePtr(DShowLib::StringToGUID(L"{#itemid#}"), DShowLib::StringToGUID(L"{#elementid#}"),pProperty);
 
 		if( pProperty != NULL )
 		{
