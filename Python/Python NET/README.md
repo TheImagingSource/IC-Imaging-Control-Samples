@@ -7,7 +7,7 @@
 * pyqt5
 * pythonnet http://pythonnet.github.io/
 
-These samples show how to use IC Imaging Control 3.5 in Python NET with Pyhton 3.7. Pyhtonnet wont install into Python 3.8.
+These samples show how to use IC Imaging Control 3.5.
 
 The qt5-simple.py sample simply displays the live video in a QT5 widget. For doing so, a frame filter is inserted into the display path of IC Imaging Control. The filter converts the IFrame of IC Imaging control into a QImage and mirros it. 
 Then a signal is sent to the main thread.
