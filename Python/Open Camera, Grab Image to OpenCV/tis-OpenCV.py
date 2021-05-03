@@ -12,7 +12,9 @@ import ctypes as C
 import tisgrabber as IC
 import cv2
 import numpy as np
+import platform
 
+OS = platform.system()
 
 lWidth=C.c_long()
 lHeight= C.c_long()
@@ -76,7 +78,10 @@ if Camera.IsDevValid() == 1:
     print("Gain auto : ", Gainauto[0])
     
     Camera.SetPropertySwitch("Gain","Auto",0)
-    Camera.SetPropertyValue("Gain","Value",10)
+    if OS == "Windows":
+        Camera.SetPropertyValue("Gain","Value",64)
+    else:
+        Camera.SetPropertyValue("Gain","Value",10)
 
     WhiteBalanceAuto=[0]
     # Same goes with white balance. We make a complete red image:
