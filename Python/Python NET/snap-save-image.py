@@ -80,4 +80,5 @@ TIS.Imaging.FrameExtensions.SaveAsJpeg( frame,"image.jpg", 75)
 print("Image saved.")
 #End the live video
 ic.LiveStop()
+ic.Dispose()
 
