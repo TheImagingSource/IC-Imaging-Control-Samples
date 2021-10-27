@@ -11,6 +11,11 @@ import os
 import sys
 import numpy as np
 
+# get the current directory absolute path
+abs_path_to_directory = os.path.abspath(os.path.dirname(__file__))
+# add the directory to the os PATH, so that we can call the DLLs from any working directory.
+os.environ['PATH'] = abs_path_to_directory + os.pathsep + os.environ['PATH']
+
 class SinkFormats(Enum):
    Y800 = 0
    RGB24 = 1 
