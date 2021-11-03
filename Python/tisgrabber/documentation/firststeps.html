@@ -1,0 +1,184 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>First Steps &#8212; Python tisgrabber Tutorial  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Device Handling" href="devicehandling.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="devicehandling.html" title="Device Handling"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python tisgrabber Tutorial  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" accesskey="U">Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">First Steps</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="first-steps">
+<h1>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h1>
+<section id="importing-tisgrabber-dll">
+<h2>Importing tisgrabber dll<a class="headerlink" href="#importing-tisgrabber-dll" title="Permalink to this headline">¶</a></h2>
+<p>Python ctypes is used for importing DLLs into a Python script. For use with tisgrabber, some basic lines of code must be done in any project:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="n">ic</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s2">&quot;./tisgrabber_x64.dll&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">HGRABBER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+   <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">   This class is used to handle the pointer to the internal</span>
+<span class="sd">   Grabber class, which contains the camera.</span>
+<span class="sd">   A pointer to this class is used by tisgrabber DLL.</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;unused&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
+
+
+<span class="c1"># Functions returning a HGRABBER Handle must set their restype to POINTER(HGRABBER)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_ReleaseGrabber</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)),)</span>
+
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">import</span></code> and <code class="docutils literal notranslate"><span class="pre">loadlibrary()</span></code> speak for themself.</p>
+<p>The class <code class="docutils literal notranslate"><span class="pre">HGRABBER</span></code> mirrors a structure of tisgrabber dll, which contains a pointer to the internal grabber object. The grabber object communicates with the camera. This object is passed as pointer to all functions of the DLL, so the functions know, which camera to communicate with.</p>
+<p>After loadLibrary() the <code class="docutils literal notranslate"><span class="pre">ic</span></code> object contains all functions of the tisgrabber.dll. All of these, that return pointers or receive them, need a declaration of return and argument types. We do that with the lines</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Functions returning a HGRABBER Handle must set their restype to POINTER(HGRABBER)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_ReleaseGrabber</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)),)</span>
+</pre></div>
+</div>
+<p>The next line, which is always necessary is the <code class="docutils literal notranslate"><span class="pre">ic.InitLibrary(0)</span></code> call.</p>
+</section>
+<section id="strings">
+<h2>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h2>
+<p>The tisgrabber dll handles strings as simple char* only. If a Python string is passed to any function, it must be encoded as utf-8. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hello</span> <span class="o">=</span> <span class="s2">&quot;Hello World&quot;</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span> <span class="n">hello</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="s2">&quot;Greeting&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="simple-live-video">
+<h2>Simple Live Video<a class="headerlink" href="#simple-live-video" title="Permalink to this headline">¶</a></h2>
+<p>Code : 01-Live.py</p>
+<p>The first sample is the 01-Live.py. It shows, how to select a video capture device with the built in device selection dialog and how to start and stop the live stream.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">IC_ShowDeviceSelectionDialog()</span></code> shows a device selection dialog. It returns a grabber object handle, therefore the C like name <cite>hGrabber</cite></p>
+<p><code class="docutils literal notranslate"><span class="pre">IC_IsDevValid</span></code> checks, whether the passed hGrabber handle uses a valid video capture device. If so, we can start and stop the live video stream:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)):</span>
+   <span class="n">ic</span><span class="o">.</span><span class="n">IC_StartLive</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+   <span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span> <span class="s2">&quot;Click OK to stop&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="s2">&quot;Simple Live Video&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+   <span class="n">ic</span><span class="o">.</span><span class="n">IC_StopLive</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+   <span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span><span class="s2">&quot;No device opened&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="s2">&quot;Simple Live Video&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),)</span>
+</pre></div>
+</div>
+<p>All programs should release the hGrabber handle in order to clean up memory. Thus, this is the last line of the sample:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_ReleaseGrabber</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">First Steps</a><ul>
+<li><a class="reference internal" href="#importing-tisgrabber-dll">Importing tisgrabber dll</a></li>
+<li><a class="reference internal" href="#strings">Strings</a></li>
+<li><a class="reference internal" href="#simple-live-video">Simple Live Video</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="devicehandling.html"
+                        title="next chapter">Device Handling</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/firststeps.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="devicehandling.html" title="Device Handling"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python tisgrabber Tutorial  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" >Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">First Steps</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Stefan Geißler The Imaging Source Europe GmbH.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

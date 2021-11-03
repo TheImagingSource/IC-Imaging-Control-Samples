@@ -1,0 +1,219 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Device Handling &#8212; Python tisgrabber Tutorial  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Properties" href="properties.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="properties.html" title="Properties"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python tisgrabber Tutorial  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" accesskey="U">Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Device Handling</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="device-handling">
+<h1>Device Handling<a class="headerlink" href="#device-handling" title="Permalink to this headline">¶</a></h1>
+<p>This chapter shows, how to open a video capture device, set a video format and a frame rate.
+The tisgrabber DLL offers different ways in order to open a video capture device.</p>
+<section id="ic-showdeviceselectiondialog">
+<h2>IC_ShowDeviceSelectionDialog<a class="headerlink" href="#ic-showdeviceselectiondialog" title="Permalink to this headline">¶</a></h2>
+<p>Code : 01-Live.py</p>
+<p>This shows a built in dialog for selecting a video capture device, a video format and frame rate. It also has a button, which shows the device property dialog. The function returns a valid HGRABBER handle, even if no device was selected:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="open-a-device-manually">
+<h2>Open a Device Manually<a class="headerlink" href="#open-a-device-manually" title="Permalink to this headline">¶</a></h2>
+<p>Code : 02-open-manually.py</p>
+<p>This means, that a <code class="docutils literal notranslate"><span class="pre">HGRABBER</span></code> is created and the device name, video format and frame rate a passed hard coded to the handle. That means, the programmer knows camera name, video format and frame rate to be used already.
+First of all, the <code class="docutils literal notranslate"><span class="pre">ic</span></code> object must know the return type of <code class="docutils literal notranslate"><span class="pre">IC_CreateGrabber()</span></code> function of tisgrabber.dll:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_CreateGrabber</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function can be used to create a <cite>hGrabber</cite> handle now:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_CreateGrabber</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The video capture device is opened by</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_OpenVideoCaptureDevice</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="s2">&quot;DFK 33GR0521&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>It is always a good idea to check, whether that was successful:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)):</span>
+</pre></div>
+</div>
+<p>If it was successful, the video format and the frame rate can be set:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_SetVideoFormat</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="s2">&quot;RGB32 (640x480)&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_SetFrameRate</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span> <span class="mf">30.0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The video capture device is ready to show a live video now.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_StartLive</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This code sets the format directly on the sensor. It is often called “setting an ROI” (Region of Interest). Most cameras will provide higher frame rates, the smaller the format is.
+There are limitations for with and height. Usually both should be dividable by 4. And sensors have minimum sizes,e.g. 256x4.
+ic.IC_SetVideoFormat() returns 1 if the format could be set successfully and 0, if an invalid format was passed, e.g. “RGB32 (255x255)”.</p>
+</section>
+<section id="open-a-device-by-configuration-file">
+<h2>Open a Device by Configuration File<a class="headerlink" href="#open-a-device-by-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>Code : 03-open-by-file.py</p>
+<p>IC Imaging Control and therefore the tisgrabber DLL can use configuration files for device state saving and loading. These files are XML files and contain the complete device state, such as video format, frame rate and properties. They also contain the serial number of the device it was created with, so in multi camera applications a specific file configures always the same camera. There are two functions relevant:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">IC_LoadDeviceStateFromFile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">IC_SaveDeviceStateToFile</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">IC_LoadDeviceStateFromFile()</span></code> returns a hGrabber handle, so the <code class="docutils literal notranslate"><span class="pre">ic</span></code> object must know that:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_LoadDeviceStateFromFile</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-the-device-file">
+<h2>Creating the Device file<a class="headerlink" href="#creating-the-device-file" title="Permalink to this headline">¶</a></h2>
+<p>First of all, a video capture device must be opened and configured. For this task, the built in device selection dialog is just fine.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="k">if</span><span class="p">(</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)):</span>
+    <span class="n">ic</span><span class="o">.</span><span class="n">IC_SaveDeviceStateToFile</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="s2">&quot;device.xml&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The file “device.xml” should exist now.</p>
+</section>
+<section id="using-the-device-file">
+<h2>Using the Device File<a class="headerlink" href="#using-the-device-file" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_LoadDeviceStateFromFile</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="s2">&quot;device.xml&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If this was successful, <code class="docutils literal notranslate"><span class="pre">ic.IC_IsDevValid(</span> <span class="pre">hGrabber</span> <span class="pre">)</span></code> returns true.</p>
+<p>In order to open the last used video capture device at e.g. program start, a little helper function could be created:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os.path</span>
+
+<span class="k">def</span> <span class="nf">openDevice</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Open a camera. If a file with a device state exists, it will be used.</span>
+<span class="sd">    If not, the device selection dialog is shown and if a valid devices</span>
+<span class="sd">    was selected, the device state file is created.</span>
+<span class="sd">    :return: a HGRABBER</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;device.xml&quot;</span><span class="p">)):</span>
+        <span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_LoadDeviceStateFromFile</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="s2">&quot;device.xml&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span> <span class="p">):</span>
+            <span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)):</span>
+        <span class="n">ic</span><span class="o">.</span><span class="n">IC_SaveDeviceStateToFile</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="s2">&quot;device.xml&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">hGrabber</span>
+</pre></div>
+</div>
+<p>This saves a lot of time during programming, because the video capture device must not selected always again for each debugging start.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Device Handling</a><ul>
+<li><a class="reference internal" href="#ic-showdeviceselectiondialog">IC_ShowDeviceSelectionDialog</a></li>
+<li><a class="reference internal" href="#open-a-device-manually">Open a Device Manually</a></li>
+<li><a class="reference internal" href="#open-a-device-by-configuration-file">Open a Device by Configuration File</a></li>
+<li><a class="reference internal" href="#creating-the-device-file">Creating the Device file</a></li>
+<li><a class="reference internal" href="#using-the-device-file">Using the Device File</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="properties.html"
+                        title="next chapter">Properties</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/devicehandling.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="properties.html" title="Properties"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python tisgrabber Tutorial  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" >Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Device Handling</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Stefan Geißler The Imaging Source Europe GmbH.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

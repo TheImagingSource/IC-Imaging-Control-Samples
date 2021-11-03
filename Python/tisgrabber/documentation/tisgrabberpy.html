@@ -1,0 +1,181 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>tisgrabber.py file &#8212; Python tisgrabber Tutorial  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using Images" href="images.html" />
+    <link rel="prev" title="Properties" href="properties.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="images.html" title="Using Images"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="properties.html" title="Properties"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python tisgrabber Tutorial  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" accesskey="U">Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">tisgrabber.py file</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tisgrabber-py-file">
+<h1>tisgrabber.py file<a class="headerlink" href="#tisgrabber-py-file" title="Permalink to this headline">¶</a></h1>
+<p>This Python script contains helper functions for the tisgrabber function declarations and something more.</p>
+<ul>
+<li><p>declareFunctions( ic )</p>
+<p>This function sets the <code class="docutils literal notranslate"><span class="pre">argtypes</span></code> of some functions. <code class="docutils literal notranslate"><span class="pre">ic</span></code> is the DLL object returned by <code class="docutils literal notranslate"><span class="pre">loadLibrary()</span></code></p>
+</li>
+<li><p>T(instr)
+This is a convenience function for <code class="docutils literal notranslate"><span class="pre">.encoding(&quot;utf-8&quot;)</span></code>.</p></li>
+<li><p>openDevice(ic)</p>
+<p>This function implements the above mentioned open a device by state file. It returns a hGrabber handle</p>
+</li>
+</ul>
+<p>More functions can be added in future.</p>
+<section id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<p>The file <code class="docutils literal notranslate"><span class="pre">tisgrabber.py</span></code> contains also constants used by the tisgrabber.dll</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SinkFormats</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="n">Y800</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">RGB24</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">RGB32</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">UYVY</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">Y16</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="n">ImageFileTypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;BMP&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;JPEG&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+
+<span class="n">IC_SUCCESS</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">IC_ERROR</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">IC_NO_HANDLE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">IC_NO_DEVICE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+<span class="n">IC_NOT_AVAILABLE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">IC_NO_PROPERTYSET</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">IC_DEFAULT_WINDOW_SIZE_SET</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">IC_NOT_IN_LIVEMODE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">IC_PROPERTY_ITEM_NOT_AVAILABLE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+<span class="n">IC_PROPERTY_ELEMENT_NOT_AVAILABLE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
+<span class="n">IC_PROPERTY_ELEMENT_WRONG_INTERFACE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span>
+<span class="n">IC_INDEX_OUT_OF_RANGE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
+<span class="n">IC_WRONG_XML_FORMAT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">IC_WRONG_INCOMPATIBLE_XML</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">IC_NOT_ALL_PROPERTIES_RESTORED</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+<span class="n">IC_DEVICE_NOT_FOUND</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
+<span class="n">IC_FILE_NOT_FOUND</span> <span class="o">=</span> <span class="mi">35</span>
+</pre></div>
+</div>
+</section>
+<section id="usage-in-own-scripts">
+<h2>Usage in own Scripts<a class="headerlink" href="#usage-in-own-scripts" title="Permalink to this headline">¶</a></h2>
+<p>A Python script, which uses the <code class="docutils literal notranslate"><span class="pre">tisgrabber.py</span></code> file should start as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">tisgrabber</span> <span class="k">as</span> <span class="nn">tis</span>
+
+<span class="n">ic</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s2">&quot;./tisgrabber_x64.dll&quot;</span><span class="p">)</span>
+
+<span class="n">tis</span><span class="o">.</span><span class="n">declareFunctions</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now all functions of the tisgrabber.dll can be used and the program can continue with#</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">tisgrabber.py file</a><ul>
+<li><a class="reference internal" href="#constants">Constants</a></li>
+<li><a class="reference internal" href="#usage-in-own-scripts">Usage in own Scripts</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="properties.html"
+                        title="previous chapter">Properties</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="images.html"
+                        title="next chapter">Using Images</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tisgrabberpy.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="images.html" title="Using Images"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="properties.html" title="Properties"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python tisgrabber Tutorial  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" >Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">tisgrabber.py file</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Stefan Geißler The Imaging Source Europe GmbH.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>
