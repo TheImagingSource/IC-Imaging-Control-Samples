@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ICWPF_VideoWindow
 {
-	public enum ImageAlignment
+    public enum ImageAlignment
 	{
 		Default,
 		Center,
@@ -37,65 +30,82 @@ namespace ICWPF_VideoWindow
 
 		public VideoWindow()
 		{
-			InitializeComponent();			
+			InitializeComponent();
 		}
 
-#region Events
+		#region Events
 		public class DrawOverlayEventArgs : EventArgs
 		{
 			public DrawingContext DrawingContext { get; private set; }
 			public Rect WindowRect { get; private set; }
 
-			internal DrawOverlayEventArgs( DrawingContext dc, Rect rc )
+			internal DrawOverlayEventArgs(DrawingContext dc, Rect rc)
 			{
 				DrawingContext = dc;
 				WindowRect = rc;
 			}
 		}
 		public event EventHandler<DrawOverlayEventArgs> DrawOverlay;
-		private void OnDrawOverlay( DrawingContext dc )
+		private void OnDrawOverlay(DrawingContext dc)
 		{
-			if( DrawOverlay != null )
+			if (DrawOverlay != null)
 			{
 				DrawOverlay(this, new DrawOverlayEventArgs(dc, new Rect(this.DesiredSize)));
 			}
 		}
-#endregion
+		#endregion
 
-#region Operations
-        public void UpdateImage(TIS.Imaging.IFrameQueueBuffer buffer)
+		#region Operations
+		public void UpdateImage(TIS.Imaging.IFrame buffer)
+		{
+			if (display.Dispatcher.CheckAccess())
+			{
+				DoUpdateImage(buffer);
+			}
+			else
+			{
+				if ((_updateImageOperation != null) && (_updateImageOperation.Status != System.Windows.Threading.DispatcherOperationStatus.Completed))
+				{
+					return;
+				}
+
+				_updateImageOperation = display.Dispatcher.BeginInvoke(new Action(() => DoUpdateImage(buffer)));
+			}
+		}
+
+		private System.Windows.Threading.DispatcherOperation _updateImageOperation = null;
+
+		private void DoUpdateImage(TIS.Imaging.IFrame buffer)
 		{
 			int bufferWidth = buffer.FrameType.Width;
-            int bufferHeight = buffer.FrameType.Height;
+			int bufferHeight = buffer.FrameType.Height;
 			PixelFormat bufferFormat = PixelFormatFromFrameType(buffer.FrameType);
 
-			display.Dispatcher.Invoke(
-				(Action)(() =>
-				{
-					if ((_source == null)
-						|| (_source.PixelWidth != bufferWidth)
-						|| (_source.PixelHeight != bufferHeight)
-						|| (_source.Format != bufferFormat))
-					{
-						_source = CreateBackBuffer(bufferWidth, bufferHeight, bufferFormat);
-						CopyImageBufferToWritableBitmap(buffer, _source);
-						display.Source = _source;
-					}
-					else
-					{
-						CopyImageBufferToWritableBitmap(buffer, _source);
-					}
+			if ((_source == null)
+				|| (_source.PixelWidth != bufferWidth)
+				|| (_source.PixelHeight != bufferHeight)
+				|| (_source.Format != bufferFormat))
+			{
+				_source = CreateBackBuffer(bufferWidth, bufferHeight, bufferFormat);
+				CopyImageBufferToWritableBitmap(buffer, _source);
+				display.Source = _source;
+			}
+			else
+			{
+				CopyImageBufferToWritableBitmap(buffer, _source);
+			}
 
-					_overlayAdorner.InvalidateVisual();
+			if (_overlayAdorner != null)
+			{
+				_overlayAdorner.InvalidateVisual();
+			}
 
-					IsSourceBottomUp = buffer.FrameType.IsBottomUp;
-					UpdateFlip();
-				})
-			);
+			IsSourceBottomUp = buffer.FrameType.IsBottomUp;
+			UpdateFlip();
 		}
 		#endregion
 
-#region Dependency Properties
+		#region Dependency Properties
 		public static readonly DependencyProperty FlipVProperty =
 			DependencyProperty.Register("FlipV", typeof(Boolean), typeof(VideoWindow),
 			new FrameworkPropertyMetadata(false,
@@ -181,13 +191,13 @@ namespace ICWPF_VideoWindow
 			var vw = dep as VideoWindow;
 			vw.UpdateZoom();
 		}
-#endregion
+		#endregion
 
 		private void UpdateStretchCenter()
 		{
-			ImageAlignment align = this.ImageAlignment;			
+			ImageAlignment align = this.ImageAlignment;
 
-			switch( align )
+			switch (align)
 			{
 				case ImageAlignment.Center:
 					display.HorizontalAlignment = HorizontalAlignment.Center;
@@ -208,7 +218,7 @@ namespace ICWPF_VideoWindow
 				case ImageAlignment.BottomLeft:
 					display.HorizontalAlignment = HorizontalAlignment.Left;
 					display.VerticalAlignment = VerticalAlignment.Bottom;
-					break;					
+					break;
 				case ImageAlignment.TopLeft:
 				case ImageAlignment.Default:
 				default:
@@ -244,7 +254,7 @@ namespace ICWPF_VideoWindow
 			displayContainer.LayoutTransform = new ScaleTransform(zoom, zoom);
 		}
 
-		private WriteableBitmap CreateBackBuffer( int width, int height, PixelFormat format )
+		private WriteableBitmap CreateBackBuffer(int width, int height, PixelFormat format)
 		{
 			double dpiX = 96;
 			double dpiY = 96;
@@ -262,7 +272,7 @@ namespace ICWPF_VideoWindow
 			return new WriteableBitmap(width, height, dpiX, dpiY, format, null);
 		}
 
-		private PixelFormat PixelFormatFromFrameType(TIS.Imaging.FrameType ftype)
+		private static PixelFormat PixelFormatFromFrameType(TIS.Imaging.FrameType ftype)
 		{
 			switch (ftype.PixelFormat)
 			{
@@ -284,11 +294,11 @@ namespace ICWPF_VideoWindow
 			}
 		}
 
-        private void CopyImageBufferToWritableBitmap(TIS.Imaging.IFrameQueueBuffer buffer, WriteableBitmap wb)
+		private static void CopyImageBufferToWritableBitmap(TIS.Imaging.IFrame buffer, WriteableBitmap wb)
 		{
-            var rect = new Int32Rect(0, 0, buffer.FrameType.Width, buffer.FrameType.Height);
-            wb.WritePixels(rect, buffer.GetIntPtr(), buffer.FrameType.BufferSize, buffer.FrameType.BytesPerLine);
-		}		
+			var rect = new Int32Rect(0, 0, buffer.FrameType.Width, buffer.FrameType.Height);
+			wb.WritePixels(rect, buffer.GetIntPtr(), buffer.FrameType.BufferSize, buffer.FrameType.BytesPerLine);
+		}
 
 		private class UpdateActionAdorner : Adorner
 		{
@@ -313,7 +323,7 @@ namespace ICWPF_VideoWindow
 				double centerX = AdornedElement.DesiredSize.Width / 2;
 				double centerY = AdornedElement.DesiredSize.Height / 2;
 
-				if( _window.ImageAlignment == ImageAlignment.Stretch )
+				if (_window.ImageAlignment == ImageAlignment.Stretch)
 				{
 					flipFactorX /= _window.ZoomFactor;
 					flipFactorY /= _window.ZoomFactor;
@@ -332,7 +342,7 @@ namespace ICWPF_VideoWindow
 
 				drawingContext.PushTransform(new ScaleTransform(flipFactorX, flipFactorY, centerX, centerY));
 
-				_updateAction( drawingContext );
+				_updateAction(drawingContext);
 
 				drawingContext.Pop();
 				drawingContext.Pop();
