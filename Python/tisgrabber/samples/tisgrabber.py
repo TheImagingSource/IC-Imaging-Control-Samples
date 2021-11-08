@@ -92,8 +92,17 @@ def declareFunctions( ic ):
 
 
     # definition of the frameready callback
-    ic.FRAMEREADYCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_int, ctypes.POINTER( ctypes.c_ubyte), ctypes.c_ulong, ctypes.py_object )
+    ic.FRAMEREADYCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.POINTER(HGRABBER), ctypes.POINTER( ctypes.c_ubyte), ctypes.c_ulong, ctypes.py_object )
+    ic.DEVICELOSTCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.POINTER(HGRABBER), ctypes.py_object )
+
     ic.IC_SetFrameReadyCallback.argtypes = [ctypes.POINTER(HGRABBER), ic.FRAMEREADYCALLBACK, ctypes.py_object]
+    ic.IC_SetCallbacks.argtypes = [ ctypes.POINTER(HGRABBER),
+                                    ic.FRAMEREADYCALLBACK,
+                                    ctypes.py_object,
+                                    ic.DEVICELOSTCALLBACK,
+                                    ctypes.py_object ]
+
+
 
 
 
