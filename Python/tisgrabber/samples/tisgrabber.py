@@ -39,7 +39,16 @@ class HGRABBER(ctypes.Structure):
     _fields_ = [('unused', ctypes.c_int)]
 
 
-def declareFunctions( ic ):
+class HCODEC(ctypes.Structure):
+    '''
+    This class is used to handle the pointer to the internal 
+    codec class for AVI capture
+    A pointer to this class is used by tisgrabber DLL.
+    '''
+    _fields_ = [('unused', ctypes.c_int)]
+
+
+def declareFunctions(ic):
     '''
     Functions returning a HGRABBER Handle must set their restype to POINTER(HGRABBER)
     :param ic: The loaded tisgrabber*.dll
@@ -49,6 +58,7 @@ def declareFunctions( ic ):
 
     ic.IC_LoadDeviceStateFromFile.restype = ctypes.POINTER(HGRABBER)
     ic.IC_CreateGrabber.restype = ctypes.POINTER(HGRABBER)
+
 
     ic.IC_GetPropertyValueRange.argtypes = (ctypes.POINTER(HGRABBER),
                                 ctypes.c_char_p,
@@ -65,15 +75,15 @@ def declareFunctions( ic ):
     ic.IC_GetPropertyAbsoluteValue.argtypes = (ctypes.POINTER(HGRABBER),
                                 ctypes.c_char_p,
                                 ctypes.c_char_p,
-                                ctypes.POINTER(ctypes.c_float), )
+                                ctypes.POINTER(ctypes.c_float),)
 
     ic.IC_GetPropertyAbsoluteValueRange.argtypes = (ctypes.POINTER(HGRABBER),
                                 ctypes.c_char_p,
                                 ctypes.c_char_p,
                                 ctypes.POINTER(ctypes.c_float),
-                                ctypes.POINTER(ctypes.c_float), )
+                                ctypes.POINTER(ctypes.c_float),)
 
-    ic.IC_GetPropertySwitch.argtypes=(ctypes.POINTER(HGRABBER),
+    ic.IC_GetPropertySwitch.argtypes = (ctypes.POINTER(HGRABBER),
                                 ctypes.c_char_p,
                                 ctypes.c_char_p,
                                 ctypes.POINTER(ctypes.c_long), )
@@ -83,28 +93,25 @@ def declareFunctions( ic ):
                                     ctypes.POINTER(ctypes.c_long),
                                     ctypes.POINTER(ctypes.c_int),
                                     ctypes.POINTER(ctypes.c_int),)
-                                    
+
     ic.IC_GetImagePtr.restype = ctypes.c_void_p
 
-    ic.IC_SetHWnd.argtypes =(ctypes.POINTER(HGRABBER), ctypes.c_int )
-                               
-
-
-
+    ic.IC_SetHWnd.argtypes = (ctypes.POINTER(HGRABBER), ctypes.c_int)
     # definition of the frameready callback
-    ic.FRAMEREADYCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.POINTER(HGRABBER), ctypes.POINTER( ctypes.c_ubyte), ctypes.c_ulong, ctypes.py_object )
-    ic.DEVICELOSTCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.POINTER(HGRABBER), ctypes.py_object )
+    ic.FRAMEREADYCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.POINTER(HGRABBER), ctypes.POINTER(ctypes.c_ubyte), ctypes.c_ulong, ctypes.py_object)
+    ic.DEVICELOSTCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.POINTER(HGRABBER), ctypes.py_object)
 
     ic.IC_SetFrameReadyCallback.argtypes = [ctypes.POINTER(HGRABBER), ic.FRAMEREADYCALLBACK, ctypes.py_object]
-    ic.IC_SetCallbacks.argtypes = [ ctypes.POINTER(HGRABBER),
+    ic.IC_SetCallbacks.argtypes = [ctypes.POINTER(HGRABBER),
                                     ic.FRAMEREADYCALLBACK,
                                     ctypes.py_object,
                                     ic.DEVICELOSTCALLBACK,
-                                    ctypes.py_object ]
+                                    ctypes.py_object]
 
+    ic.IC_Codec_Create.restype = ctypes.POINTER(HCODEC)
 
-
-
+    ic.ENUMCODECCB = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_char_p, ctypes.py_object)
+    ic.IC_enumCodecs.argtypes = (ic.ENUMCODECCB, ctypes.py_object)
 
 
 def T(instr):
@@ -115,6 +122,7 @@ def T(instr):
     '''
     return instr.encode("utf-8")
 
+
 def openDevice(ic):
     ''' Helper functions
     Open a camera. If a file with a device state exists, it will be used.
@@ -123,12 +131,12 @@ def openDevice(ic):
     :return: a HGRABBER
     '''
     try:
-        hGrabber = ic.IC_LoadDeviceStateFromFile(None,T("device.xml"))
-        if not ic.IC_IsDevValid(hGrabber ):
+        hGrabber = ic.IC_LoadDeviceStateFromFile(None, T("device.xml"))
+        if not ic.IC_IsDevValid(hGrabber):
             hGrabber = ic.IC_ShowDeviceSelectionDialog(None)
-    except:
+    except Exception as ex:
         hGrabber = ic.IC_ShowDeviceSelectionDialog(None)
 
-    if( ic.IC_IsDevValid(hGrabber)): 
-        ic.IC_SaveDeviceStateToFile(hGrabber,T("device.xml"))
+    if(ic.IC_IsDevValid(hGrabber)):
+        ic.IC_SaveDeviceStateToFile(hGrabber, T("device.xml"))
     return hGrabber

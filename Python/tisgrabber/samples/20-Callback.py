@@ -9,6 +9,7 @@ import ctypes
 
 ic = ctypes.cdll.LoadLibrary("./tisgrabber_x64.dll")
 
+
 class HGRABBER(ctypes.Structure):
     '''
     This class is used to handle the pointer to the internal 
@@ -17,12 +18,13 @@ class HGRABBER(ctypes.Structure):
     '''
     _fields_ = [('unused', ctypes.c_int)]
 
+
 class CallbackUserdata(ctypes.Structure):
     """ Example for user data passed to the callback function. """
     def __init__(self):
         self.Value1 = 42
         self.Value2 = 0
-        self.camera = None # Reference to the camera object
+        self.camera = None      # Reference to the camera object
 
 
 def Callback(hGrabber, pBuffer, framenumber, pData):
