@@ -59,7 +59,6 @@ def declareFunctions(ic):
     ic.IC_LoadDeviceStateFromFile.restype = ctypes.POINTER(HGRABBER)
     ic.IC_CreateGrabber.restype = ctypes.POINTER(HGRABBER)
 
-
     ic.IC_GetPropertyValueRange.argtypes = (ctypes.POINTER(HGRABBER),
                                 ctypes.c_char_p,
                                 ctypes.c_char_p,
@@ -103,15 +102,19 @@ def declareFunctions(ic):
 
     ic.IC_SetFrameReadyCallback.argtypes = [ctypes.POINTER(HGRABBER), ic.FRAMEREADYCALLBACK, ctypes.py_object]
     ic.IC_SetCallbacks.argtypes = [ctypes.POINTER(HGRABBER),
-                                    ic.FRAMEREADYCALLBACK,
-                                    ctypes.py_object,
-                                    ic.DEVICELOSTCALLBACK,
-                                    ctypes.py_object]
+                                   ic.FRAMEREADYCALLBACK,
+                                   ctypes.py_object,
+                                   ic.DEVICELOSTCALLBACK,
+                                   ctypes.py_object]
 
     ic.IC_Codec_Create.restype = ctypes.POINTER(HCODEC)
 
     ic.ENUMCODECCB = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_char_p, ctypes.py_object)
     ic.IC_enumCodecs.argtypes = (ic.ENUMCODECCB, ctypes.py_object)
+
+    ic.IC_GetDeviceName.restype = ctypes.c_char_p
+    ic.IC_GetDevice.restype = ctypes.c_char_p
+    ic.IC_GetUniqueNamefromList.restype = ctypes.c_char_p
 
 
 def T(instr):
@@ -121,6 +124,15 @@ def T(instr):
     :return: converted string
     '''
     return instr.encode("utf-8")
+
+
+def D(instr):
+    ''' Helper function
+    Decodes instr utf-8
+    :param instr: Python string to be converted
+    :return: converted string
+    '''
+    return instr.decode('utf-8', 'ignore')
 
 
 def openDevice(ic):
