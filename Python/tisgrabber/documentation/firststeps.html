@@ -52,49 +52,66 @@
 <h1>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h1>
 <section id="importing-tisgrabber-dll">
 <h2>Importing tisgrabber dll<a class="headerlink" href="#importing-tisgrabber-dll" title="Permalink to this headline">¶</a></h2>
-<p>Python ctypes is used for importing DLLs into a Python script. For use with tisgrabber, some basic lines of code must be done in any project:</p>
+<p>Python <em>ctypes</em> is used for importing DLLs into a Python script. For use of <em>tisgrabber</em> some basic lines of code must be done in any project:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
 
 <span class="n">ic</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s2">&quot;./tisgrabber_x64.dll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Many functions of the <em>tisgrabber.dll</em> have “complex” parameters and and return values. Therefore, these functions must be
+declared. This is done in the file <em>tisgrabber.py</em>. This <em>tisgrabber.py</em> must be imported:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tisgrabber</span> <span class="k">as</span> <span class="nn">tis</span>
+</pre></div>
+</div>
+<p>The declaration of the functions is done by a call to</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tis</span><span class="o">.</span><span class="n">declareFunctions</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thus, a Python script that uses the <em>tisgrabber.dll</em> needs always following lines at the start:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">tisgrabber</span> <span class="k">as</span> <span class="nn">tis</span>
 
-<span class="k">class</span> <span class="nc">HGRABBER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+<span class="n">ic</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s2">&quot;./tisgrabber_x64.dll&quot;</span><span class="p">)</span>
+<span class="n">tis</span><span class="o">.</span><span class="n">declareFunctions</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
+
+<span class="n">ic</span><span class="o">.</span><span class="n">InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The next line, which is always necessary is the <code class="docutils literal notranslate"><span class="pre">ic.InitLibrary(0)</span></code> call.</p>
+<p>All functions of the tisgrabber.dll are now in the “ic” namespace.</p>
+</section>
+<section id="hgrabber">
+<h2>HGRABBER<a class="headerlink" href="#hgrabber" title="Permalink to this headline">¶</a></h2>
+<p>The class <code class="docutils literal notranslate"><span class="pre">HGRABBER</span></code> mirrors a structure of tisgrabber dll, which contains a pointer to the internal grabber object. The grabber object communicates with the camera. This object is passed as pointer to all functions of the DLL, so the functions know, which camera to communicate with.
+It is defined in the <em>tisgrabber.py</em> as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HGRABBER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
    <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">   This class is used to handle the pointer to the internal</span>
 <span class="sd">   Grabber class, which contains the camera.</span>
 <span class="sd">   A pointer to this class is used by tisgrabber DLL.</span>
 <span class="sd">   &#39;&#39;&#39;</span>
    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;unused&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
-
-
-<span class="c1"># Functions returning a HGRABBER Handle must set their restype to POINTER(HGRABBER)</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_ReleaseGrabber</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)),)</span>
-
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">import</span></code> and <code class="docutils literal notranslate"><span class="pre">loadlibrary()</span></code> speak for themself.</p>
-<p>The class <code class="docutils literal notranslate"><span class="pre">HGRABBER</span></code> mirrors a structure of tisgrabber dll, which contains a pointer to the internal grabber object. The grabber object communicates with the camera. This object is passed as pointer to all functions of the DLL, so the functions know, which camera to communicate with.</p>
-<p>After loadLibrary() the <code class="docutils literal notranslate"><span class="pre">ic</span></code> object contains all functions of the tisgrabber.dll. All of these, that return pointers or receive them, need a declaration of return and argument types. We do that with the lines</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Functions returning a HGRABBER Handle must set their restype to POINTER(HGRABBER)</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_ReleaseGrabber</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">HGRABBER</span><span class="p">)),)</span>
-</pre></div>
-</div>
-<p>The next line, which is always necessary is the <code class="docutils literal notranslate"><span class="pre">ic.InitLibrary(0)</span></code> call.</p>
+<p>For each camera to be used in the Python script an own HGRABBER object must be created.</p>
 </section>
 <section id="strings">
 <h2>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h2>
-<p>The tisgrabber dll handles strings as simple char* only. If a Python string is passed to any function, it must be encoded as utf-8. For example:</p>
+<p>The <em>tisgrabber dll</em> handles strings as simple <em>char*</em> only. If a Python string is passed to any function, it must be encoded as utf-8. For example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hello</span> <span class="o">=</span> <span class="s2">&quot;Hello World&quot;</span>
 <span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span> <span class="n">hello</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="s2">&quot;Greeting&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>For convenience the <em>tisgrabber.py</em> contains the function “T” for encode and “D” for encode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hello</span> <span class="o">=</span> <span class="s2">&quot;Hello World&quot;</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span> <span class="n">tis</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">hello</span><span class="p">),</span><span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Greeting&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
 <section id="simple-live-video">
 <h2>Simple Live Video<a class="headerlink" href="#simple-live-video" title="Permalink to this headline">¶</a></h2>
 <p>Code : 01-Live.py</p>
-<p>The first sample is the 01-Live.py. It shows, how to select a video capture device with the built in device selection dialog and how to start and stop the live stream.</p>
+<p>The first sample is the <em>01-Live.py</em>. It shows how to select a video capture device with the built in device selection dialog and how to start and stop the live stream.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -102,10 +119,11 @@
 <p><code class="docutils literal notranslate"><span class="pre">IC_IsDevValid</span></code> checks, whether the passed hGrabber handle uses a valid video capture device. If so, we can start and stop the live video stream:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)):</span>
    <span class="n">ic</span><span class="o">.</span><span class="n">IC_StartLive</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-   <span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span> <span class="s2">&quot;Click OK to stop&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="s2">&quot;Simple Live Video&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+   <span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span><span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Click OK to stop&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Simple Live Video&quot;</span><span class="p">))</span>
+
    <span class="n">ic</span><span class="o">.</span><span class="n">IC_StopLive</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
-   <span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span><span class="s2">&quot;No device opened&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="s2">&quot;Simple Live Video&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),)</span>
+   <span class="n">ic</span><span class="o">.</span><span class="n">IC_MsgBox</span><span class="p">(</span><span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;No device opened&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Simple Live Video&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>All programs should release the hGrabber handle in order to clean up memory. Thus, this is the last line of the sample:</p>
@@ -126,6 +144,7 @@
   <ul>
 <li><a class="reference internal" href="#">First Steps</a><ul>
 <li><a class="reference internal" href="#importing-tisgrabber-dll">Importing tisgrabber dll</a></li>
+<li><a class="reference internal" href="#hgrabber">HGRABBER</a></li>
 <li><a class="reference internal" href="#strings">Strings</a></li>
 <li><a class="reference internal" href="#simple-live-video">Simple Live Video</a></li>
 </ul>

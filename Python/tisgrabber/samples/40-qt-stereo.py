@@ -14,9 +14,7 @@ ic.IC_InitLibrary(0)
 
 # Create the camera objects.
 LeftCamera = ic.IC_CreateGrabber()
-RightCamera  = ic.IC_CreateGrabber()
-
-
+RightCamera = ic.IC_CreateGrabber()
 
 
 class CallbackUserdata(ctypes.Structure):
@@ -29,6 +27,7 @@ class CallbackUserdata(ctypes.Structure):
         self.oldbrightness = 0
         self.getNextImage = 0
         self.cvMat = None
+
 
 def LeftCallback(hGrabber, pBuffer, framenumber, pData):
     """ This is an example callback function for image processing  with 
@@ -72,19 +71,18 @@ def RightCallback(hGrabber, pBuffer, framenumber, pData):
         if pData.buffer_size > 0:
             image = ctypes.cast(pBuffer, ctypes.POINTER(ctypes.c_ubyte * pData.buffer_size))
 
-            pData.cvMat = np.ndarray(buffer = image.contents,
-                            dtype = np.uint8,
-                            shape = (pData.height.value,
-                                    pData.width.value,
-                                    pData.BytesPerPixel))
+            pData.cvMat = np.ndarray(buffer=image.contents,
+                                     dtype=np.uint8,
+                                     shape=(pData.height.value,
+                                            pData.width.value,
+                                            pData.BytesPerPixel))
 
         pData.getNextImage = 0
 
 
-
 # Manage the callbacks
 # Create the function pointer.
-LeftCallbackfunc =  ic.FRAMEREADYCALLBACK(LeftCallback)
+LeftCallbackfunc = ic.FRAMEREADYCALLBACK(LeftCallback)
 RightCallbackfunc = ic.FRAMEREADYCALLBACK(RightCallback)
 
 LeftUserData = CallbackUserdata()

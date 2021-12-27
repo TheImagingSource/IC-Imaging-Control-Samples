@@ -46,12 +46,13 @@
             
   <section id="using-images">
 <h1>Using Images<a class="headerlink" href="#using-images" title="Permalink to this headline">¶</a></h1>
-<p>After device handling the next step is how to get images.
+<p>After device handling the next step is getting images.
 This chapter shows how to query images from the camera and how to process them by OpenCV.</p>
 <section id="snap-and-save-an-image-from-livestream">
 <h2>Snap and Save an Image from LiveStream<a class="headerlink" href="#snap-and-save-an-image-from-livestream" title="Permalink to this headline">¶</a></h2>
 <p>Code : 10-save-image.py</p>
-<p>This sample shows how to snap an image from the live stream of a video capture device and save it as JPEG image. It also uses the above mentioned tisgrabber.py. That reduces the code of the sample. It is started by</p>
+<p>This sample shows how to snap an image from the live stream of a video capture device and save it as JPEG image. It also uses the above mentioned
+tisgrabber.py. That reduces the code of the sample. It is started by</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
 <span class="kn">import</span> <span class="nn">tisgrabber</span> <span class="k">as</span> <span class="nn">tis</span>
 
@@ -79,12 +80,13 @@ This chapter shows how to query images from the camera and how to process them b
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_SnapImage</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This waits two seconds for an image and returns an error, if no frame was received. If a frame was received, it can be saved by</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_SaveImage</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;test.jpg&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">ImageFileTypes</span><span class="p">[</span><span class="s1">&#39;JPEG&#39;</span><span class="p">]</span> <span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<p>This waits for an image with a 2 seconds timeout and returns an error, if no frame was received. If a frame was received, it can be saved by</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_SaveImage</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;test.jpg&quot;</span><span class="p">),</span>
+                <span class="n">tis</span><span class="o">.</span><span class="n">ImageFileTypes</span><span class="p">[</span><span class="s1">&#39;JPEG&#39;</span><span class="p">],</span> <span class="mi">90</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The parameter <code class="docutils literal notranslate"><span class="pre">tis.ImageFileTypes['JPEG']</span></code> indicates, that the image is to be saved as JPEG image. The other possibility is Bitmap: <code class="docutils literal notranslate"><span class="pre">tis.ImageFileTypes['BMP']</span></code>.</p>
-<p>The last parameter, here “90” sets the JPEG quality. It is ignored, if the image is saved as Bitmap.</p>
+<p>The last parameter, here “90” sets the JPEG quality. It is ignored, if the image is saved as bitmap.</p>
 <p>It is used in the menu loop as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">hGrabber</span> <span class="o">=</span> <span class="n">tis</span><span class="o">.</span><span class="n">openDevice</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
@@ -98,7 +100,8 @@ This chapter shows how to query images from the camera and how to process them b
         <span class="n">key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter your choice:&#39;</span><span class="p">)</span>
         <span class="k">if</span>  <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_SnapImage</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">==</span> <span class="n">tis</span><span class="o">.</span><span class="n">IC_SUCCESS</span><span class="p">:</span>
-                <span class="n">ic</span><span class="o">.</span><span class="n">IC_SaveImage</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;test.jpg&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">ImageFileTypes</span><span class="p">[</span><span class="s1">&#39;JPEG&#39;</span><span class="p">]</span> <span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+                <span class="n">ic</span><span class="o">.</span><span class="n">IC_SaveImage</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;test.jpg&quot;</span><span class="p">),</span>
+                                <span class="n">tis</span><span class="o">.</span><span class="n">ImageFileTypes</span><span class="p">[</span><span class="s1">&#39;JPEG&#39;</span><span class="p">]</span> <span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Image saved.&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No frame received in 2 seconds.&quot;</span><span class="p">)</span>
@@ -111,7 +114,9 @@ This chapter shows how to query images from the camera and how to process them b
 <span class="n">ic</span><span class="o">.</span><span class="n">IC_ReleaseGrabber</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The function <code class="docutils literal notranslate"><span class="pre">IC_SnapImage()</span></code> is not suitable, if the camera is in trigger mode, because frames can be missed. This function also blocks the program execution, if no frame is delivered. For triggered cameras please use a frame delivery callback function. How to do this will be explained later.</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">IC_SnapImage()</span></code> is not suitable, if the camera is in trigger mode, because
+frames can be missed. This function also blocks the program execution, if no frame is delivered.
+Please use a frame delivery callback function for triggered cameras . How to do this is explained later.</p>
 </section>
 <section id="snapping-an-image-and-process-it-with-opencv">
 <h2>Snapping an Image and Process it with OpenCV<a class="headerlink" href="#snapping-an-image-and-process-it-with-opencv" title="Permalink to this headline">¶</a></h2>
@@ -122,50 +127,54 @@ This chapter shows how to query images from the camera and how to process them b
 <li><p>get a pointer to the image data and convert it to Python use</p></li>
 <li><p>create a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array for OpenCV image processing</p></li>
 </ul>
-<p>OpenCV uses <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, therefore numpy must be installed and imported.</p>
+<p>OpenCV uses <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, therefore <code class="docutils literal notranslate"><span class="pre">numpy</span></code> must be installed and imported.</p>
 <p>The related functions in the tisgrabber DLL are</p>
 <ul class="simple">
 <li><p>IC_GetImageDescription</p></li>
 <li><p>IC_GetImagePtr</p></li>
 </ul>
-<p>The function <code class="docutils literal notranslate"><span class="pre">IC_GetImageDescription</span></code> receives pointers to variables, therefore, they must be declared first:</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">IC_GetImageDescription</span></code> receives pointers to variables, therefore, they must
+be declared first:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Width</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">()</span>
 <span class="n">Height</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">()</span>
 <span class="n">BitsPerPixel</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">()</span>
 <span class="n">colorformat</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">BitsPerPixel</span></code> is 8 on Y800, 24 on RGB24 and 32  on RGB32 formats. The default format in memory is RGB24.
-The format set in camera will be converted automatically to RGB24.</p>
+<p><code class="docutils literal notranslate"><span class="pre">BitsPerPixel</span></code> is 8 on Y800, 24 on RGB24 and 32  on RGB32 formats. The default format in
+memory is RGB24. The format used by camera will be converted automatically to RGB24.</p>
 <p>Next step is querying these values and calculate the buffer size of an image:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Query the values</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImageDescription</span><span class="p">(</span> <span class="n">hGrabber</span><span class="p">,</span> <span class="n">Width</span><span class="p">,</span> <span class="n">Height</span><span class="p">,</span> <span class="n">BitsPerPixel</span><span class="p">,</span> <span class="n">colorformat</span> <span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Query values of image description</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImageDescription</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">Width</span><span class="p">,</span> <span class="n">Height</span><span class="p">,</span>
+                          <span class="n">BitsPerPixel</span><span class="p">,</span> <span class="n">colorformat</span><span class="p">)</span>
 
 <span class="c1"># Calculate the buffer size</span>
-<span class="n">bpp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="n">BitsPerPixel</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">8.0</span> <span class="p">)</span>
+<span class="n">bpp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">BitsPerPixel</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">8.0</span><span class="p">)</span>
 <span class="n">buffer_size</span> <span class="o">=</span> <span class="n">Width</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">Height</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">BitsPerPixel</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 <p>Then the pointer to the image data is queried and casted into something Python can handle:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the image data</span>
-<span class="n">imagePtr</span> <span class="o">=</span>  <span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImagePtr</span><span class="p">(</span> <span class="n">hGrabber</span> <span class="p">)</span>
+<span class="n">imagePtr</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImagePtr</span><span class="p">(</span> <span class="n">hGrabber</span> <span class="p">)</span>
 
-<span class="n">imagedata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">imagePtr</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span> <span class="o">*</span> <span class="n">buffer_size</span><span class="p">))</span>
+<span class="n">imagedata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">imagePtr</span><span class="p">,</span>
+                        <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span> <span class="o">*</span>
+                                       <span class="n">buffer_size</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>With <code class="docutils literal notranslate"><span class="pre">imagedata</span></code> the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array is created:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the numpy array</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">imagedata</span><span class="o">.</span><span class="n">contents</span><span class="p">,</span>
-         <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
-         <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">Height</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                  <span class="n">Width</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                  <span class="n">bpp</span><span class="p">))</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">buffer</span><span class="o">=</span><span class="n">imagedata</span><span class="o">.</span><span class="n">contents</span><span class="p">,</span>
+                   <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+                   <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">Height</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                          <span class="n">Width</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                          <span class="n">bpp</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">image</span></code> can be used by OpenCV functions now:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply some OpenCV functions on the image</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)))</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)))</span>
 
 <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;Window&#39;</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
 <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -185,14 +194,14 @@ The format set in camera will be converted automatically to RGB24.</p>
 
 <span class="n">hGrabber</span> <span class="o">=</span> <span class="n">tis</span><span class="o">.</span><span class="n">openDevice</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
 
-<span class="k">if</span><span class="p">(</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)):</span>
-    <span class="n">ic</span><span class="o">.</span><span class="n">IC_StartLive</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">if</span><span class="p">(</span><span class="n">ic</span><span class="o">.</span><span class="n">IC_IsDevValid</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)):</span>
+    <span class="n">ic</span><span class="o">.</span><span class="n">IC_StartLive</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">while</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;q&quot;</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p: Process an image&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q: End program&quot;</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter your choice:&#39;</span><span class="p">)</span>
-        <span class="k">if</span>  <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_SnapImage</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">==</span> <span class="n">tis</span><span class="o">.</span><span class="n">IC_SUCCESS</span><span class="p">:</span>
                 <span class="c1"># Declare variables of image description</span>
                 <span class="n">Width</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">()</span>
@@ -200,28 +209,31 @@ The format set in camera will be converted automatically to RGB24.</p>
                 <span class="n">BitsPerPixel</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">()</span>
                 <span class="n">colorformat</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">()</span>
 
-                <span class="c1"># Query the values</span>
-                <span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImageDescription</span><span class="p">(</span> <span class="n">hGrabber</span><span class="p">,</span> <span class="n">Width</span><span class="p">,</span> <span class="n">Height</span><span class="p">,</span> <span class="n">BitsPerPixel</span><span class="p">,</span> <span class="n">colorformat</span> <span class="p">)</span>
+                <span class="c1"># Query the values of image description</span>
+                <span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImageDescription</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">Width</span><span class="p">,</span> <span class="n">Height</span><span class="p">,</span>
+                                        <span class="n">BitsPerPixel</span><span class="p">,</span> <span class="n">colorformat</span><span class="p">)</span>
 
                 <span class="c1"># Calculate the buffer size</span>
-                <span class="n">bpp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="n">BitsPerPixel</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">8.0</span> <span class="p">)</span>
+                <span class="n">bpp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">BitsPerPixel</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">8.0</span><span class="p">)</span>
                 <span class="n">buffer_size</span> <span class="o">=</span> <span class="n">Width</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">Height</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">BitsPerPixel</span><span class="o">.</span><span class="n">value</span>
 
                 <span class="c1"># Get the image data</span>
-                <span class="n">imagePtr</span> <span class="o">=</span>  <span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImagePtr</span><span class="p">(</span> <span class="n">hGrabber</span> <span class="p">)</span>
+                <span class="n">imagePtr</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_GetImagePtr</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
 
-                <span class="n">imagedata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">imagePtr</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span> <span class="o">*</span> <span class="n">buffer_size</span><span class="p">))</span>
+                <span class="n">imagedata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">imagePtr</span><span class="p">,</span>
+                                        <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span> <span class="o">*</span>
+                                                    <span class="n">buffer_size</span><span class="p">))</span>
 
                 <span class="c1"># Create the numpy array</span>
-                <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">imagedata</span><span class="o">.</span><span class="n">contents</span><span class="p">,</span>
-                        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
-                        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">Height</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                                <span class="n">Width</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                                <span class="n">bpp</span><span class="p">))</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">buffer</span><span class="o">=</span><span class="n">imagedata</span><span class="o">.</span><span class="n">contents</span><span class="p">,</span>
+                                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+                                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">Height</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                        <span class="n">Width</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                        <span class="n">bpp</span><span class="p">))</span>
 
                 <span class="c1"># Apply some OpenCV functions on the image</span>
-                <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-                <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)))</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)))</span>
 
                 <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;Window&#39;</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
                 <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>

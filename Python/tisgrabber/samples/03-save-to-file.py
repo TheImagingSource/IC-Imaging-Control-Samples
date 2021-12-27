@@ -1,3 +1,8 @@
+"""
+This sample shows, how to create an XML configuration file 
+for a video capture device.
+"""
+
 import ctypes
 import tisgrabber as tis
 
@@ -9,8 +14,8 @@ ic.IC_InitLibrary(0)
 hGrabber = ic.IC_ShowDeviceSelectionDialog(None)
 
 if(ic.IC_IsDevValid(hGrabber)):
-    ic.IC_printItemandElementNames(hGrabber)
+    ic.IC_SaveDeviceStateToFile(hGrabber, tis.T("device.xml"))
 else:
-    print("No device opened.")
+    ic.IC_MsgBox(tis.T("No device opened"), tis.T("Simple Live Video"))
 
 ic.IC_ReleaseGrabber(hGrabber)

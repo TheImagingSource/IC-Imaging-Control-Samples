@@ -1,7 +1,6 @@
 '''
 This sample demonstrates, how to open a camera with the
-built in dialog and show a live video stream.
-It is changed for import of tisgrabber.py file.
+built in device selection dialog and show a live video stream.
 Needed DLLs for 64 bit environment are
 - tisgrabber_x64.dll
 - TIS_UDSHL11_x64.dll

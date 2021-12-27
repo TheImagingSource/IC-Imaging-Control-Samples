@@ -27,7 +27,7 @@ class CallbackUserdata(ctypes.Structure):
 
 
 def frameReadyCallback(hGrabber, pBuffer, framenumber, pData):
-    # Do something with cvMat here.
+    # Maybe do something here.
     return
 
 
@@ -39,6 +39,7 @@ def deviceLostCallback(hGrabber, userdata):
     """
     userdata.connected = False
     print("Device {} lost".format(userdata.devicename))
+
 
 # Manage the callbacks
 # Create the function pointer.

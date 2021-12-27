@@ -18,7 +18,8 @@ if(ic.IC_IsDevValid(hGrabber)):
         key = input('Enter your choice:')
         if key == "s":
             if ic.IC_SnapImage(hGrabber, 2000) == tis.IC_SUCCESS:
-                ic.IC_SaveImage(hGrabber, tis.T("test.jpg"), tis.ImageFileTypes['JPEG'], 90)
+                ic.IC_SaveImage(hGrabber, tis.T("test.jpg"),
+                                tis.ImageFileTypes['JPEG'], 90)
                 print("Image saved.")
             else:
                 print("No frame received in 2 seconds.")

@@ -1,20 +1,13 @@
-import ctypes 
+"""
+This sample shows, how to use a XML configuration file 
+for opening a video capture device.
+"""
+
+import ctypes
+import tisgrabber as tis
 
 ic = ctypes.cdll.LoadLibrary("./tisgrabber_x64.dll")
-
-class HGRABBER(ctypes.Structure):
-    '''
-    This class is used to handle the pointer to the internal 
-    Grabber class, which contains the camera. 
-    A pointer to this class is used by tisgrabber DLL.
-    '''
-    _fields_ = [('unused', ctypes.c_int)]
-
-
-# Functions returning a HGRABBER Handle must set their restype to POINTER(HGRABBER)
-ic.IC_ShowDeviceSelectionDialog.restype = ctypes.POINTER(HGRABBER)
-ic.IC_CreateGrabber.restype = ctypes.POINTER(HGRABBER)
-ic.IC_ReleaseGrabber.argtypes = (ctypes.POINTER(ctypes.POINTER(HGRABBER)),)
+tis.declareFunctions(ic)
 
 ic.IC_InitLibrary(0)
 
