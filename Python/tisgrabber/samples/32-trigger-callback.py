@@ -51,6 +51,7 @@ def frameReadyCallback(hGrabber, pBuffer, framenumber, pData):
 
         # Do something with cvMat here.
 
+
 # Manage the callbacks
 # Create the function pointer.
 frameReadyCallbackfunc = ic.FRAMEREADYCALLBACK(frameReadyCallback)

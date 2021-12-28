@@ -47,7 +47,7 @@
   <section id="using-images">
 <h1>Using Images<a class="headerlink" href="#using-images" title="Permalink to this headline">¶</a></h1>
 <p>After device handling the next step is getting images.
-This chapter shows how to query images from the camera and how to process them by OpenCV.</p>
+This chapter shows how to query images from the camera and how to process them by <span class="target" id="index-0"></span>OpenCV.</p>
 <section id="snap-and-save-an-image-from-livestream">
 <h2>Snap and Save an Image from LiveStream<a class="headerlink" href="#snap-and-save-an-image-from-livestream" title="Permalink to this headline">¶</a></h2>
 <p>Code : 10-save-image.py</p>
@@ -85,7 +85,7 @@ tisgrabber.py. That reduces the code of the sample. It is started by</p>
                 <span class="n">tis</span><span class="o">.</span><span class="n">ImageFileTypes</span><span class="p">[</span><span class="s1">&#39;JPEG&#39;</span><span class="p">],</span> <span class="mi">90</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The parameter <code class="docutils literal notranslate"><span class="pre">tis.ImageFileTypes['JPEG']</span></code> indicates, that the image is to be saved as JPEG image. The other possibility is Bitmap: <code class="docutils literal notranslate"><span class="pre">tis.ImageFileTypes['BMP']</span></code>.</p>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">tis.ImageFileTypes['JPEG']</span></code> indicates, that the image is to be saved as <span class="target" id="index-1"></span>JPEG image. The other possibility is Bitmap: <code class="docutils literal notranslate"><span class="pre">tis.ImageFileTypes['BMP']</span></code>.</p>
 <p>The last parameter, here “90” sets the JPEG quality. It is ignored, if the image is saved as bitmap.</p>
 <p>It is used in the menu loop as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -114,8 +114,8 @@ tisgrabber.py. That reduces the code of the sample. It is started by</p>
 <span class="n">ic</span><span class="o">.</span><span class="n">IC_ReleaseGrabber</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The function <code class="docutils literal notranslate"><span class="pre">IC_SnapImage()</span></code> is not suitable, if the camera is in trigger mode, because
-frames can be missed. This function also blocks the program execution, if no frame is delivered.
+<p>The function <code class="docutils literal notranslate"><span class="pre">IC_SnapImage()</span></code> is not suitable, if the camera is in <span class="target" id="index-2"></span>trigger mode, because
+frames can be missed. This function also blocks the program execution while no frame is delivered.
 Please use a frame delivery callback function for triggered cameras . How to do this is explained later.</p>
 </section>
 <section id="snapping-an-image-and-process-it-with-opencv">
@@ -125,7 +125,7 @@ Please use a frame delivery callback function for triggered cameras . How to do 
 <ul class="simple">
 <li><p>get an image descriptions of width, height and bits per pixel</p></li>
 <li><p>get a pointer to the image data and convert it to Python use</p></li>
-<li><p>create a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array for OpenCV image processing</p></li>
+<li><p>create a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array for <span class="target" id="index-3"></span>OpenCV image processing</p></li>
 </ul>
 <p>OpenCV uses <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, therefore <code class="docutils literal notranslate"><span class="pre">numpy</span></code> must be installed and imported.</p>
 <p>The related functions in the tisgrabber DLL are</p>
@@ -252,6 +252,113 @@ memory is RGB24. The format used by camera will be converted automatically to RG
 </div>
 <p>16 bit support is currently not implemented.</p>
 </section>
+<section id="frameready-callback">
+<h2>Frameready Callback<a class="headerlink" href="#frameready-callback" title="Permalink to this headline">¶</a></h2>
+<p>Code: 20-Callback.py</p>
+<p>IC Imaging Control and <em>tisgrabber.dll</em> can call a <span class="target" id="index-4"></span>callback function for each incoming
+frame (image) from a video capture device.</p>
+<p>In case a camera is used in trigger mode, the usage of a callback is recommended. The
+program does not need to poll for new frames.</p>
+<p>A callback function runs in the <span class="target" id="index-5"></span>thread of the <code class="docutils literal notranslate"><span class="pre">hGrabber</span></code> object, not in the main thread
+of the program.</p>
+<p>A callback using program needs three things at least:</p>
+<dl class="simple">
+<dt>callback function</dt><dd><p>The function to be called.</p>
+</dd>
+<dt>callback user data</dt><dd><p>A simple class with user data to be passed to the callback function.</p>
+</dd>
+<dt>callback user function pointer</dt><dd><p>A pointer to the callback function. Sounds complicate, but is one line of code only.</p>
+</dd>
+</dl>
+<section id="callback-user-data">
+<h3>Callback User data<a class="headerlink" href="#callback-user-data" title="Permalink to this headline">¶</a></h3>
+<p>The <span class="target" id="index-6"></span>user data class is forwarded to the callback. In the callback the user data
+can be used to store information about image processing for the main thread. It can be
+create as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CallbackUserdata</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Example for user data passed to the callback function. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Value1</span> <span class="o">=</span> <span class="mi">42</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Value2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1"># Reference to a camera/grabber object</span>
+</pre></div>
+</div>
+</section>
+<section id="callback-function">
+<h3>Callback Function<a class="headerlink" href="#callback-function" title="Permalink to this headline">¶</a></h3>
+<p>The <span class="target" id="index-7"></span>callback function has a fixed parameter list and must be implement as
+follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">FrameCallback</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">pBuffer</span><span class="p">,</span> <span class="n">framenumber</span><span class="p">,</span> <span class="n">pData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is an example callback function</span>
+<span class="sd">        The image is saved in test.jpg and the pData.Value1 is</span>
+<span class="sd">        incremented by one.</span>
+
+<span class="sd">    :param: hGrabber: This is the real pointer to the grabber object. Do not use.</span>
+<span class="sd">    :param: pBuffer : Pointer to the first pixel&#39;s first byte</span>
+<span class="sd">    :param: framenumber : Number of the frame since the stream started</span>
+<span class="sd">    :param: pData : Pointer to additional user data structure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Callback called&quot;</span><span class="p">,</span> <span class="n">pData</span><span class="o">.</span><span class="n">Value1</span><span class="p">)</span>
+    <span class="n">pData</span><span class="o">.</span><span class="n">Value1</span> <span class="o">=</span> <span class="n">pData</span><span class="o">.</span><span class="n">Value1</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>At least the definition must be implemented in this way.</p>
+</section>
+<section id="callback-function-pointer">
+<h3>Callback Function Pointer<a class="headerlink" href="#callback-function-pointer" title="Permalink to this headline">¶</a></h3>
+<p>The callback function pointer declaration is in <em>tisgrabber.py</em> and it is used in the main
+script as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the function pointer.</span>
+<span class="n">Callbackfuncptr</span> <span class="o">=</span> <span class="n">tis</span><span class="o">.</span><span class="n">FRAMEREADYCALLBACK</span><span class="p">(</span><span class="n">FrameCallback</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also do not forget to instatiate the user data object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Userdata</span> <span class="o">=</span> <span class="n">CallbackUserdata</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After the <code class="docutils literal notranslate"><span class="pre">hGrabber</span></code> object has been created, the callback variables can be passed
+to it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_SetFrameReadyCallback</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">Callbackfuncptr</span><span class="p">,</span> <span class="n">Userdata</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_SetContinuousMode</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ic.IC_SetContinuousMode(hGrabber,</span> <span class="pre">0)</span></code> advises the <code class="docutils literal notranslate"><span class="pre">hGrabber</span></code> object to call the
+frame callback function automatically, which means without an <code class="docutils literal notranslate"><span class="pre">ic.IC_SnapImage()</span></code> call.
+(Yes, I know, I switched “0” and “1”, when writing the <em>tisgrabber.dll</em> in the
+<code class="docutils literal notranslate"><span class="pre">ic.IC_SetContinuousMode</span></code> function. I am sorry for that.)</p>
+<p>The following callback sample shows, how to create a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array for <span class="target" id="index-8"></span>OpenCV:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">LeftCallback</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">pBuffer</span><span class="p">,</span> <span class="n">framenumber</span><span class="p">,</span> <span class="n">pData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is an example callback function for image processing  with</span>
+<span class="sd">        opencv. The image data in pBuffer is converted into a cv Matrix.</span>
+
+
+<span class="sd">    :param: hGrabber: This is the real pointer to the grabber object.</span>
+<span class="sd">    :param: pBuffer : Pointer to the first pixel&#39;s first byte</span>
+<span class="sd">    :param: framenumber : Number of the frame since the stream started</span>
+<span class="sd">    :param: pData : Pointer to additional user data structure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pData</span><span class="o">.</span><span class="n">getNextImage</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">pData</span><span class="o">.</span><span class="n">getNextImage</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    Left&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pData</span><span class="o">.</span><span class="n">buffer_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pBuffer</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span> <span class="o">*</span> <span class="n">pData</span><span class="o">.</span><span class="n">buffer_size</span><span class="p">))</span>
+
+            <span class="n">pData</span><span class="o">.</span><span class="n">cvMat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">buffer</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">contents</span><span class="p">,</span>
+                                    <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+                                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">pData</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                            <span class="n">pData</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                            <span class="n">pData</span><span class="o">.</span><span class="n">BytesPerPixel</span><span class="p">))</span>
+        <span class="n">pData</span><span class="o">.</span><span class="n">getNextImage</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>It is copied from the <em>40-qt-stereo.py</em> example. The <em>41-qt-triggering.py</em> sample shows
+how to <span class="target" id="index-9"></span>signal the main <span class="target" id="index-10"></span>Qt thread from within the callback. The sample
+shows also, how to use the <span class="target" id="index-11"></span>trigger correctly.</p>
+<p>It is recommended to perform image processing in the callback, because each <code class="docutils literal notranslate"><span class="pre">hGrabber</span></code>
+object has its own thread and if many cameras are used, the callback run in own <span class="target" id="index-12"></span>threads.
+That saves CPU load.</p>
+</section>
+</section>
 </section>
 
 
@@ -266,6 +373,12 @@ memory is RGB24. The format used by camera will be converted automatically to RG
 <li><a class="reference internal" href="#">Using Images</a><ul>
 <li><a class="reference internal" href="#snap-and-save-an-image-from-livestream">Snap and Save an Image from LiveStream</a></li>
 <li><a class="reference internal" href="#snapping-an-image-and-process-it-with-opencv">Snapping an Image and Process it with OpenCV</a></li>
+<li><a class="reference internal" href="#frameready-callback">Frameready Callback</a><ul>
+<li><a class="reference internal" href="#callback-user-data">Callback User data</a></li>
+<li><a class="reference internal" href="#callback-function">Callback Function</a></li>
+<li><a class="reference internal" href="#callback-function-pointer">Callback Function Pointer</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

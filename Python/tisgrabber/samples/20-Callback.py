@@ -1,22 +1,13 @@
 '''
-This sample demonstrates, how to open a camera with the 
-built in dialog and show a live video stream.
-Needed DLLs for 64 bit environment are 
-- tisgrabber_x64.dll
-- TIS_UDSHL11_x64.dll
+This sample demonstrates how to create a callback, which is automatically
+called for each incoming frame.
 '''
-import ctypes 
+import ctypes
+
+import tisgrabber as tis
 
 ic = ctypes.cdll.LoadLibrary("./tisgrabber_x64.dll")
-
-
-class HGRABBER(ctypes.Structure):
-    '''
-    This class is used to handle the pointer to the internal 
-    Grabber class, which contains the camera. 
-    A pointer to this class is used by tisgrabber DLL.
-    '''
-    _fields_ = [('unused', ctypes.c_int)]
+tis.declareFunctions(ic)
 
 
 class CallbackUserdata(ctypes.Structure):
@@ -24,10 +15,10 @@ class CallbackUserdata(ctypes.Structure):
     def __init__(self):
         self.Value1 = 42
         self.Value2 = 0
-        self.camera = None      # Reference to the camera object
+        self.camera = None      # Reference to a camera/grabber object
 
 
-def Callback(hGrabber, pBuffer, framenumber, pData):
+def FrameCallback(hGrabber, pBuffer, framenumber, pData):
     """ This is an example callback function 
          The image is saved in test.jpg and the pData.Value1 is 
          incremented by one.
@@ -41,27 +32,21 @@ def Callback(hGrabber, pBuffer, framenumber, pData):
     pData.Value1 = pData.Value1 + 1
 
 
-# Functions returning a HGRABBER Handle must set their restype to POINTER(HGRABBER)
-ic.IC_ShowDeviceSelectionDialog.restype = ctypes.POINTER(HGRABBER)
-ic.IC_ReleaseGrabber.argtypes = (ctypes.POINTER(ctypes.POINTER(HGRABBER)),)
-
-# definition of the frameready callback
-FRAMEREADYCALLBACK = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_int, ctypes.POINTER( ctypes.c_ubyte), ctypes.c_ulong, ctypes.py_object )
-ic.IC_SetFrameReadyCallback.argtypes = [ctypes.POINTER(HGRABBER), FRAMEREADYCALLBACK, ctypes.py_object]
-
-Userdata = CallbackUserdata()    
+Userdata = CallbackUserdata()
 # Create the function pointer.
-Callbackfunc = FRAMEREADYCALLBACK(Callback)
+Callbackfuncptr = tis.FRAMEREADYCALLBACK(FrameCallback)
 
 ic.IC_InitLibrary(0)
 
 hGrabber = ic.IC_ShowDeviceSelectionDialog(None)
- 
-if( ic.IC_IsDevValid(hGrabber)): 
-    ic.IC_SetFrameReadyCallback(hGrabber, Callbackfunc, Userdata)
+
+if(ic.IC_IsDevValid(hGrabber)):
+    ic.IC_SetFrameReadyCallback(hGrabber, Callbackfuncptr, Userdata)
     ic.IC_SetContinuousMode(hGrabber, 0)
-    ic.IC_StartLive(hGrabber,1)
-    ic.IC_MsgBox( "Click OK to stop".encode("utf-8"),"Callback".encode("utf-8"))
+    ic.IC_StartLive(hGrabber, 1)
+    ic.IC_MsgBox(tis.T("Click OK to stop"), tis.T("Callback"))
     ic.IC_StopLive(hGrabber)
 else:
-    ic.IC_MsgBox("No device opened".encode("utf-8"), "Callback".encode("utf-8"),)
+    ic.IC_MsgBox(tis.T("No device opened"), tis.T("Callback"))
+
+ic.IC_ReleaseGrabber(hGrabber)
