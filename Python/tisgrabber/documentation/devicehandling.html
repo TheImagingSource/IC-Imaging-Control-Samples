@@ -50,7 +50,7 @@
             
   <section id="device-handling">
 <h1>Device Handling<a class="headerlink" href="#device-handling" title="Permalink to this headline">¶</a></h1>
-<p>This chapter shows, how to open a video capture device, set a video format and a frame rate.
+<p>This chapter shows, how to open a video capture <span class="target" id="index-0"></span>device, set a video format and a frame rate.
 The tisgrabber DLL offers different ways in order to open a video capture device.</p>
 <section id="ic-showdeviceselectiondialog">
 <h2>IC_ShowDeviceSelectionDialog<a class="headerlink" href="#ic-showdeviceselectiondialog" title="Permalink to this headline">¶</a></h2>
@@ -91,7 +91,7 @@ ic.IC_SetVideoFormat() returns 1 if the format could be set successfully and 0, 
 </section>
 <section id="open-a-device-by-model-name-and-serial-number">
 <h2>Open a Device by Model Name and Serial Number<a class="headerlink" href="#open-a-device-by-model-name-and-serial-number" title="Permalink to this headline">¶</a></h2>
-<p>If many device of the same model are in use, then the serial number of a device identifies it unique. This is used
+<p>If many device of the same model are in use, then the <span class="target" id="index-1"></span>serial number of a device identifies it unique. This is used
 in the function <code class="docutils literal notranslate"><span class="pre">ic.IC_OpenDevByUniqueName(g,</span> <span class="pre">tis.T(uniquename))</span></code>. The unique name is built from device model and and its
 serial number separated by a space:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_CreateGrabber</span><span class="p">()</span>
@@ -110,9 +110,9 @@ serial number separated by a space:</p>
 <section id="creating-the-device-file">
 <h3>Creating the Device file<a class="headerlink" href="#creating-the-device-file" title="Permalink to this headline">¶</a></h3>
 <p>Code : 03-save-to-file.py</p>
-<p><code class="docutils literal notranslate"><span class="pre">IC_SaveDeviceStateToFile</span></code> saves the current device state of an opened video capture device into an XML file.
+<p><code class="docutils literal notranslate"><span class="pre">IC_SaveDeviceStateToFile</span></code> saves the current device state of an opened video capture device into an XML <span class="target" id="index-2"></span>configuration file.
 The file contains:
-* Device name and serial number
+* Device name and <span class="target" id="index-3"></span>serial number
 * Video format
 * Frame rate
 * All properties, such as exposure, gain and so on.</p>
@@ -196,7 +196,7 @@ to UTF8 for Python.</p>
 lost, e.g. by disconnection or something weird in the network. This
 enables a program to react, e.g. try to reconnect the video capture device
 or notify the operator.</p>
-<p>The device lost event uses a callback. The callback is implemented as</p>
+<p>The <span class="target" id="index-4"></span>device lost event uses a callback. The callback is implemented as</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">deviceLostCallback</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">userdata</span><span class="p">):</span>
     <span class="n">userdata</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> lost&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">userdata</span><span class="o">.</span><span class="n">devicename</span><span class="p">))</span>
@@ -248,6 +248,75 @@ main program in case the device is lost:</p>
 <p>The callbacks always run in the <code class="docutils literal notranslate"><span class="pre">hGrabber</span></code> thread, therefore, it might be necessary to
 implement message handling. For Qt5 it is shown in 41-qt-triggering.py</p>
 </section>
+<section id="roi-binning-co">
+<h2>ROI, Binning &amp; Co<a class="headerlink" href="#roi-binning-co" title="Permalink to this headline">¶</a></h2>
+<p>Code: 07-roi.py</p>
+<section id="setting-an-roi">
+<h3>Setting an ROI<a class="headerlink" href="#setting-an-roi" title="Permalink to this headline">¶</a></h3>
+<p>Most sensors allow to set a physical Region of Interest (<span class="target" id="index-5"></span>ROI) directly on the sensor.
+The camera sends this small ROI only, which usually results in higher frame rates.</p>
+<p>The width and height increments are usually restricted. In most cases, both values
+must be divisible by 4 or 8. Likewise, there is a minimum height and width.</p>
+<p>Currently the <em>tisgrabber.dll</em> does not implement the IC Imaging Control VideoFormatDesc
+object, therefore, the increments and minimum values must be determined manually. the
+built in Device Selection dialog <code class="docutils literal notranslate"><span class="pre">ic.IC_ShowDeviceSelectionDialog(None)</span></code> can be used
+for this. A click on the “Customize” button allows to choose an ROI, if supported.
+The increments can be checked there.</p>
+<p>An ROI is set in code by the video format with the function
+<code class="docutils literal notranslate"><span class="pre">ic.IC_SetVideoFormat(hGrabber,</span> <span class="pre">tis.T(&quot;RGB32</span> <span class="pre">(640x480)&quot;))</span></code>. The format string has
+always the same format:</p>
+<ul class="simple">
+<li><p>Pixel format in the camera, e.g. Y800, Y16, RGB24, RGB32, YUY2, Y411 etc</p></li>
+<li><p>A space</p></li>
+<li><p>Width and height separated by an “x” in brackets</p></li>
+</ul>
+<p>Please keep in mind, a video format can be set only, while the camera does not stream.
+The ROI is always a part of a sensor, therefore, the field of view will always be smaller
+than the full sensor.</p>
+</section>
+<section id="binning-and-skipping">
+<h3>Binning and Skipping<a class="headerlink" href="#binning-and-skipping" title="Permalink to this headline">¶</a></h3>
+<p>Some sensors support <span class="target" id="index-6"></span>binning and <span class="target" id="index-7"></span>skipping.</p>
+<dl class="simple">
+<dt>Binning</dt><dd><p>Binning means that two or more pixels are combined. This can be a simple addition of the brightness values or the average of the brightness values. This is sensor dependent.</p>
+</dd>
+<dt>Skipping</dt><dd><p>Skipping simply skips a corresponding number of pixels.</p>
+</dd>
+</dl>
+<p>On some sensors binning and skipping and be done horizontally and vertically only too.</p>
+<p>In order to enable binning or skipping the text “[Binning 2x]” or “[Skipping 2x]” etc must
+be added to the video format string. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_SetVideoFormat</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;RGB32 (640x480) [Skipping 2x]&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The width and the height must be small enough to enable binning and skipping. If 2x
+is used, then the maximum useable width and height is the sensor’s width / 2 and height / 2.</p>
+</section>
+<section id="moving-an-roi-on-the-sensor">
+<h3>Moving an ROI on the Sensor<a class="headerlink" href="#moving-an-roi-on-the-sensor" title="Permalink to this headline">¶</a></h3>
+<p>An ROI can be moved on the sensor. The “Partial Scan” properties are used for that.
+Per default it is centered on the sensor by the driver. In order to move a an ROI, The
+<code class="docutils literal notranslate"><span class="pre">Auto-center</span></code> property must be disabled:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Moving the ROI on the sensor need to disable the Partial Scan Auto Center</span>
+<span class="c1"># property:</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_SetPropertySwitch</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Partial scan&quot;</span><span class="p">),</span>
+                        <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Auto-center&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then the ROI can be moved:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_SetPropertyValue</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Partial scan&quot;</span><span class="p">),</span>
+                       <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Y Offset&quot;</span><span class="p">),</span> <span class="mi">110</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_SetPropertyValue</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Partial scan&quot;</span><span class="p">),</span>
+                       <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;X Offset&quot;</span><span class="p">),</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The camera driver internally adjusts the specified values to valid coordinates. The
+ROI an be moved, while the camera streams.</p>
+<p>In case the application needs a fixed center position, I recommend to use a smaller
+ROI and move it, until the center position is correct. This is ofter simpler, than
+moving the camera mechanically.</p>
+</section>
+</section>
 </section>
 
 
@@ -270,6 +339,12 @@ implement message handling. For Qt5 it is shown in 41-qt-triggering.py</p>
 </li>
 <li><a class="reference internal" href="#list-devices">List Devices</a></li>
 <li><a class="reference internal" href="#detect-device-lost">Detect Device Lost</a></li>
+<li><a class="reference internal" href="#roi-binning-co">ROI, Binning &amp; Co</a><ul>
+<li><a class="reference internal" href="#setting-an-roi">Setting an ROI</a></li>
+<li><a class="reference internal" href="#binning-and-skipping">Binning and Skipping</a></li>
+<li><a class="reference internal" href="#moving-an-roi-on-the-sensor">Moving an ROI on the Sensor</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

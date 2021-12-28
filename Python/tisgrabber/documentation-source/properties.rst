@@ -3,17 +3,28 @@
 Properties
 ==========
 
-Properties are values for e.g. exposure time, gain, white balance and so on. 
+Properties are values for e.g. :index:`exposure` time, :index:`gain`, :index:`white balance` and so on. 
 Which properties are available depend on the used video capture device. Therefore, 
-IC Imaging Control and tisgrabber DLL do not contain simple functions 
+IC Imaging Control and *tisgrabber.DLL* do not contain simple functions 
 like ``setExposure``. Not all devices have an exposure property.
 
-In tisgrabber DLL properties are identified by the combination of  their names and elements names.
+Built in Property Dialog
+------------------------
+IC Imaging Control and *tisgrabber.DLL* provide a property dialog with all available 
+properties of a video capture device:
+
+.. code-block:: python
+
+        ic.IC_ShowPropertyDialog(hGrabber)
+
+Therefore, it is not necessary to write an own dialog.
 
 List available properties
 -------------------------
 
 Code: 04-list-properties.py
+
+In *tisgrabber.DLL* properties are identified by the combination of  their names and elements.
 
 In order to get a list of available properties, their names, elements and interfaces, 
 following function is called:

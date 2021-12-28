@@ -3,7 +3,7 @@
 Device Handling
 ###############
 
-This chapter shows, how to open a video capture device, set a video format and a frame rate. 
+This chapter shows, how to open a video capture :index:`device`, set a video format and a frame rate. 
 The tisgrabber DLL offers different ways in order to open a video capture device. 
 
 IC_ShowDeviceSelectionDialog
@@ -64,7 +64,7 @@ ic.IC_SetVideoFormat() returns 1 if the format could be set successfully and 0, 
 Open a Device by Model Name and Serial Number
 ---------------------------------------------
 
-If many device of the same model are in use, then the serial number of a device identifies it unique. This is used 
+If many device of the same model are in use, then the :index:`serial number` of a device identifies it unique. This is used 
 in the function ``ic.IC_OpenDevByUniqueName(g, tis.T(uniquename))``. The unique name is built from device model and and its 
 serial number separated by a space:
 
@@ -94,9 +94,9 @@ Creating the Device file
 
 Code : 03-save-to-file.py
 
-``IC_SaveDeviceStateToFile`` saves the current device state of an opened video capture device into an XML file. 
+``IC_SaveDeviceStateToFile`` saves the current device state of an opened video capture device into an XML :index:`configuration file`. 
 The file contains:
-* Device name and serial number
+* Device name and :index:`serial number`
 * Video format
 * Frame rate
 * All properties, such as exposure, gain and so on.
@@ -207,7 +207,7 @@ lost, e.g. by disconnection or something weird in the network. This
 enables a program to react, e.g. try to reconnect the video capture device
 or notify the operator.
 
-The device lost event uses a callback. The callback is implemented as
+The :index:`device lost` event uses a callback. The callback is implemented as
 
 .. code-block:: python
 
@@ -274,4 +274,100 @@ main program in case the device is lost:
 
 The callbacks always run in the ``hGrabber`` thread, therefore, it might be necessary to 
 implement message handling. For Qt5 it is shown in 41-qt-triggering.py
+
+
+ROI, Binning & Co
+-----------------
+
+Code: 07-roi.py
+
+--------------
+Setting an ROI
+--------------
+Most sensors allow to set a physical Region of Interest (:index:`ROI`) directly on the sensor.
+The camera sends this small ROI only, which usually results in higher frame rates.
+
+The width and height increments are usually restricted. In most cases, both values 
+must be divisible by 4 or 8. Likewise, there is a minimum height and width.
+
+Currently the *tisgrabber.dll* does not implement the IC Imaging Control VideoFormatDesc 
+object, therefore, the increments and minimum values must be determined manually. the
+built in Device Selection dialog ``ic.IC_ShowDeviceSelectionDialog(None)`` can be used
+for this. A click on the "Customize" button allows to choose an ROI, if supported. 
+The increments can be checked there.
+
+An ROI is set in code by the video format with the function 
+``ic.IC_SetVideoFormat(hGrabber, tis.T("RGB32 (640x480)"))``. The format string has
+always the same format:
+
+- Pixel format in the camera, e.g. Y800, Y16, RGB24, RGB32, YUY2, Y411 etc
+ 
+- A space
+  
+- Width and height separated by an "x" in brackets
+
+Please keep in mind, a video format can be set only, while the camera does not stream.
+The ROI is always a part of a sensor, therefore, the field of view will always be smaller
+than the full sensor.
+
+--------------------
+Binning and Skipping
+--------------------
+
+Some sensors support :index:`binning` and :index:`skipping`.
+
+Binning
+    Binning means that two or more pixels are combined. This can be a simple addition of the brightness values or the average of the brightness values. This is sensor dependent.
+
+Skipping
+    Skipping simply skips a corresponding number of pixels.
+
+On some sensors binning and skipping and be done horizontally and vertically only too.
+
+In order to enable binning or skipping the text "[Binning 2x]" or "[Skipping 2x]" etc must
+be added to the video format string. For example:
+
+.. code-block:: python    
+
+    ic.IC_SetVideoFormat(hGrabber, tis.T("RGB32 (640x480) [Skipping 2x]"))
+
+The width and the height must be small enough to enable binning and skipping. If 2x 
+is used, then the maximum useable width and height is the sensor's width / 2 and height / 2.
+
+---------------------------
+Moving an ROI on the Sensor
+---------------------------
+
+An ROI can be moved on the sensor. The "Partial Scan" properties are used for that.
+Per default it is centered on the sensor by the driver. In order to move a an ROI, The
+``Auto-center`` property must be disabled:
+
+.. code-block:: python    
+
+    # Moving the ROI on the sensor need to disable the Partial Scan Auto Center
+    # property:
+    ic.IC_SetPropertySwitch(hGrabber, tis.T("Partial scan"),
+                            tis.T("Auto-center"), 0)
+
+Then the ROI can be moved:
+
+.. code-block:: python    
+
+        ic.IC_SetPropertyValue(hGrabber, tis.T("Partial scan"),
+                               tis.T("Y Offset"), 110)
+        ic.IC_SetPropertyValue(hGrabber, tis.T("Partial scan"),
+                               tis.T("X Offset"), 20)
+
+The camera driver internally adjusts the specified values to valid coordinates. The 
+ROI an be moved, while the camera streams. 
+
+In case the application needs a fixed center position, I recommend to use a smaller 
+ROI and move it, until the center position is correct. This is ofter simpler, than 
+moving the camera mechanically. 
+
+
+
+
+
+
 

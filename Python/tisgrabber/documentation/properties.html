@@ -50,15 +50,29 @@
             
   <section id="properties">
 <h1>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h1>
-<p>Properties are values for e.g. exposure time, gain, white balance and so on. Which properties are available depend on the used video capture device. Therefore, IC Imaging Control and tisgrabber DLL do not contain simple functions like <code class="docutils literal notranslate"><span class="pre">setExposure</span></code>. Not all devices have an exposure property.</p>
-<p>In tisgrabber DLL properties are identified their names and and elements names.</p>
-<p>### List available properties</p>
+<p>Properties are values for e.g. <span class="target" id="index-0"></span>exposure time, <span class="target" id="index-1"></span>gain, <span class="target" id="index-2"></span>white balance and so on.
+Which properties are available depend on the used video capture device. Therefore,
+IC Imaging Control and <em>tisgrabber.DLL</em> do not contain simple functions
+like <code class="docutils literal notranslate"><span class="pre">setExposure</span></code>. Not all devices have an exposure property.</p>
+<section id="built-in-property-dialog">
+<h2>Built in Property Dialog<a class="headerlink" href="#built-in-property-dialog" title="Permalink to this headline">¶</a></h2>
+<p>IC Imaging Control and <em>tisgrabber.DLL</em> provide a property dialog with all available
+properties of a video capture device:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowPropertyDialog</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Therefore, it is not necessary to write an own dialog.</p>
+</section>
+<section id="list-available-properties">
+<h2>List available properties<a class="headerlink" href="#list-available-properties" title="Permalink to this headline">¶</a></h2>
 <p>Code: 04-list-properties.py</p>
-<p>In order to get a list of available properties, their names, elements and interfaces, following function is called:</p>
+<p>In <em>tisgrabber.DLL</em> properties are identified by the combination of  their names and elements.</p>
+<p>In order to get a list of available properties, their names, elements and interfaces,
+following function is called:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_printItemandElementNames</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In the program it is usedas</p>
+<p>In the program it is used as</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="o">.</span><span class="n">IC_InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="n">hGrabber</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_ShowDeviceSelectionDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
@@ -257,7 +271,8 @@ Auto Functions ROI
                 Interface : AbsoluteValue
 </pre></div>
 </div>
-<p>The output shows the used interface:</p>
+<p>The output shows the used interfaces. They are used by the below listed functions
+of the <em>tisgrabber.dll</em></p>
 <ul>
 <li><p>Range</p>
 <blockquote>
@@ -306,7 +321,8 @@ Auto Functions ROI
 </div></blockquote>
 </li>
 </ul>
-<p>The Range functions accept and receive integer values. The AbsoluteValue functions use float and the Switch uses integer 0 and 1.</p>
+<p>The <em>Range</em> functions accept and receive integer values. The <em>AbsoluteValue</em> functions use
+float and the <em>Switch</em> functions uses integer 0 and 1.</p>
 <p>All of these functions have following return values:</p>
 <table class="colwidths-given docutils align-default" id="id1">
 <caption><span class="caption-text">Return values of property functions</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
@@ -344,6 +360,7 @@ Auto Functions ROI
 </tr>
 </tbody>
 </table>
+</section>
 <section id="setting-properties">
 <h2>Setting properties<a class="headerlink" href="#setting-properties" title="Permalink to this headline">¶</a></h2>
 <p>Code: 05-properties.py</p>
@@ -382,9 +399,13 @@ Auto Functions ROI
                             <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">),</span> <span class="p">)</span>
 </pre></div>
 </div>
-<p>The C functions of the DLL receive pointers of the variables to store the values in. This is not really a concept of Python. Therefore, we have to create the value receiving variables first. The simple sample is getting the value of a switch property, in this case it is Exposure Auto:</p>
+<p>The C functions of the DLL receive pointers of the variables to store the values in.
+This is not really a concept of Python. Therefore, we have to create the value receiving
+variables first. The simple sample is getting the value of a switch property, in this
+case it is Exposure Auto:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">exposureauto</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">()</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_SetPropertySwitch</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="s2">&quot;Exposure&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="s2">&quot;Auto&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">exposureauto</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_SetPropertySwitch</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Exposure&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Auto&quot;</span><span class="p">),</span>
+                        <span class="n">exposureauto</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exposure Auto is </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exposureauto</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -392,23 +413,27 @@ Auto Functions ROI
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">expmin</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">()</span>
 <span class="n">expmax</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">()</span>
 <span class="n">exposure</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">()</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyAbsoluteValue</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="s2">&quot;Exposure&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="s2">&quot;Value&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">exposure</span> <span class="p">)</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyAbsoluteValueRange</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="s2">&quot;Exposure&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="s2">&quot;Value&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">expmin</span><span class="p">,</span> <span class="n">expmax</span> <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exposure is </span><span class="si">{0}</span><span class="s2">, range is </span><span class="si">{1}</span><span class="s2"> - </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exposure</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">expmin</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">expmax</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyAbsoluteValue</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Exposure&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">),</span>
+                               <span class="n">exposure</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyAbsoluteValueRange</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Exposure&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">),</span>
+                                    <span class="n">expmin</span><span class="p">,</span> <span class="n">expmax</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exposure is </span><span class="si">{0}</span><span class="s2">, range is </span><span class="si">{1}</span><span class="s2"> - </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exposure</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                                   <span class="n">expmin</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">expmax</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The Absolute Value interface uses float as data type. The Range interface uses long and it is used as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gainmin</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">()</span>
 <span class="n">gainmax</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">()</span>
 <span class="n">gain</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_long</span><span class="p">()</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyValue</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="s2">&quot;Gain&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="s2">&quot;Value&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="n">gain</span> <span class="p">)</span>
-<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyValueRange</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="s2">&quot;Gain&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="s2">&quot;Value&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">gainmin</span><span class="p">,</span> <span class="n">gainmax</span> <span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyValue</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Gain&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">),</span> <span class="n">gain</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_GetPropertyValueRange</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Gain&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">),</span>
+                            <span class="n">gainmin</span><span class="p">,</span> <span class="n">gainmax</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gain is </span><span class="si">{0}</span><span class="s2"> range is </span><span class="si">{1}</span><span class="s2"> - </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gain</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">gain</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">gain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>With this code all value and switch properties of a video capture device can be handled, it is always the same.</p>
 <p>The last property to be handled is the Button property. A Button property executes an operation, such as One Push Auto Focus and One Push White Balance.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ret</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_PropertyOnePush</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span><span class="s2">&quot;Focus&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span><span class="s2">&quot;One Push&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ret</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">IC_PropertyOnePush</span><span class="p">(</span><span class="n">hGrabber</span><span class="p">,</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;Focus&quot;</span><span class="p">),</span> <span class="n">tis</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="s2">&quot;One Push&quot;</span><span class="p">))</span>
 <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="o">-</span><span class="mi">4</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Your camera does not support Focus properties!&quot;</span><span class="p">)</span>
 </pre></div>
@@ -427,6 +452,8 @@ Auto Functions ROI
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Properties</a><ul>
+<li><a class="reference internal" href="#built-in-property-dialog">Built in Property Dialog</a></li>
+<li><a class="reference internal" href="#list-available-properties">List available properties</a></li>
 <li><a class="reference internal" href="#setting-properties">Setting properties</a></li>
 </ul>
 </li>
