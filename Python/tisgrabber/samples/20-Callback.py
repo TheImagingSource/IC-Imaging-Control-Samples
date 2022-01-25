@@ -34,7 +34,7 @@ def FrameCallback(hGrabber, pBuffer, framenumber, pData):
 
 Userdata = CallbackUserdata()
 # Create the function pointer.
-Callbackfuncptr = tis.FRAMEREADYCALLBACK(FrameCallback)
+Callbackfuncptr = ic.FRAMEREADYCALLBACK(FrameCallback)
 
 ic.IC_InitLibrary(0)
 
