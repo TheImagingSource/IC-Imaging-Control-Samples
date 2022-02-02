@@ -2,14 +2,24 @@ import ctypes
 
 from enum import Enum
 
-class SinkFormats(Enum):
-   Y800 = 0
-   RGB24 = 1 
-   RGB32 = 2
-   UYVY = 3  
-   Y16 = 4
 
-ImageFileTypes = {'BMP':0, 'JPEG':1}
+class SinkFormats(Enum):
+    Y800 = 0
+    RGB24 = 1
+    RGB32 = 2
+    UYVY = 3
+    Y16 = 4
+
+
+class FRAMEFILTER_PARAM_TYPE(Enum):
+    eParamLong = 0
+    eParamBoolean = 1
+    eParamFloat = 2
+    eParamString = 3
+    eParamData = 4
+
+
+ImageFileTypes = {'BMP': 0, 'JPEG': 1}
 
 IC_SUCCESS = 1
 IC_ERROR = 0
@@ -32,7 +42,7 @@ IC_FILE_NOT_FOUND = 35
 
 class HGRABBER(ctypes.Structure):
     '''
-    This class is used to handle the pointer to the internal 
+    This class is used to handle the pointer to the internal
     Grabber class, which contains the camera. 
     A pointer to this class is used by tisgrabber DLL.
     '''
@@ -41,11 +51,35 @@ class HGRABBER(ctypes.Structure):
 
 class HCODEC(ctypes.Structure):
     '''
-    This class is used to handle the pointer to the internal 
+    This class is used to handle the pointer to the internal
     codec class for AVI capture
     A pointer to this class is used by tisgrabber DLL.
     '''
     _fields_ = [('unused', ctypes.c_int)]
+
+
+class FILTERPARAMETER(ctypes.Structure):
+    '''
+    This class implements the structure of a frame filter
+    parameter used by the HFRAMEFILTER class
+    '''
+    _fields_ = [
+        ('Name', ctypes.c_char*30),
+        ('Type', ctypes.c_int)
+    ]
+
+
+class HFRAMEFILTER(ctypes.Structure):
+    '''
+    This class implements the structure of a frame filter used
+    by the tisgrabber.dll.
+    '''
+    _fields_ = [
+        ('pFilter', ctypes.c_void_p),
+        ('bHasDialog', ctypes.c_int),
+        ('ParameterCount', ctypes.c_int),
+        ('Parameters', ctypes.POINTER(FILTERPARAMETER))
+    ]
 
 
 def declareFunctions(ic):
@@ -115,6 +149,8 @@ def declareFunctions(ic):
     ic.IC_GetDeviceName.restype = ctypes.c_char_p
     ic.IC_GetDevice.restype = ctypes.c_char_p
     ic.IC_GetUniqueNamefromList.restype = ctypes.c_char_p
+
+    ic.IC_CreateFrameFilter.argtypes = (ctypes.c_char_p, ctypes.POINTER(HFRAMEFILTER))
 
 
 def T(instr):
