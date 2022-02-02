@@ -1,8 +1,11 @@
 import ctypes as C
 import numpy as np
+import sys,os
 # Import PyhtonNet
 import clr
 # Load IC Imaging Control .NET 
+sys.path.append(os.getenv('IC35PATH') + "/redist/dotnet/x64")
+
 clr.AddReference('TIS.Imaging.ICImagingControl35')
 clr.AddReference('System')
 

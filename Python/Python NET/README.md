@@ -7,20 +7,21 @@
 * pyqt5
 * pythonnet http://pythonnet.github.io/
 
-These samples show how to use IC Imaging Control 3.5.
+Maybe newer versions of Python are supported by PythonNET now. 
 
-The qt5-simple.py sample simply displays the live video in a QT5 widget. For doing so, a frame filter is inserted into the display path of IC Imaging Control. The filter converts the IFrame of IC Imaging control into a QImage and mirros it. 
+These samples show how to use IC Imaging Control 3.5. 
+
+The DLLs are located in the dist directory of "Documents/IC Imaging Control 3.5". This is saved in the environment varialbe "IC35PATH". For PythonNET being able to find the DLLS, we simply add this path to the search path: 
+
+``` Python
+import sys, os
+sys.path.append(os.getenv('IC35PATH') + "/redist/dotnet/x64")
+```
+
+The qt5-simple.py sample simply displays the live video in a QT5 widget. For doing so, a frame filter is inserted into the display path of IC Imaging Control. The filter converts the IFrame of IC Imaging control into a QImage and mirrors it. 
 Then a signal is sent to the main thread.
 
 The qt5-imageprocessing.py sample enhances the qt5-simple.py with a frame callback and some simple image processing. The results are signaled to the main thread again.
-
-In order to run the samples, the IC Imaging Control 3.5 component and its depenedendcies must be copied from
-
-Documents\IC Imaging Control 3.5\redist\dotnet\x64\ for 64 bit
-
-or
-
-Documents\IC Imaging Control 3.5\redist\dotnet\x86\ for 32bit 
 
 
 The snap-save-image.py sample shows in a very simply way how to
@@ -88,4 +89,40 @@ This frame can be converted to a numpy array (see the QT5 samples) or we can sim
 TIS.Imaging.FrameExtensions.SaveAsJpeg( frame,"image.jpg", 75)
 ```
 
+# Capture a Video File
+Sample: qt5-mediastreamsink
 
+Copied from qt5-simple.py for enhancement. 
+
+This sample is based on the C# "Capture a video file", which is documented at [Capturing a Video File]https://www.theimagingsource.com/support/documentation/ic-imaging-control-net/CaptureVideo.htmFrameSnapSink.htm). It is quite simple, because as soon as the live stream is started, the video is capture to a file "test.mp4".
+
+The sample shows, how to enumerate the stream containers and select the MP4 container. It also shows, how to use a lambda function in order to select the MediaFoundation h.264" codec, which is supported by the MP4 StreamContainer. At start, the property dialog of the codec is shown. 
+
+Without error handling, the creation of the MediaStreamSink looks as follows:
+``` Python
+# Get MP4 stream container
+CurrentMediaStreamContainer = None
+for container in TIS.Imaging.MediaStreamContainer.MediaStreamContainers:
+    if container.Name == "MP4":
+        CurrentMediaStreamContainer = container
+
+# Get the MediaFoundation h.264 codec
+try:
+    CurrentCodec = next(c for c in TIS.Imaging.AviCompressor.AviCompressors 
+                        if CurrentMediaStreamContainer.IsCodecSupported(c) and 
+                        c.Name == "MediaFoundation h.264")
+except:
+    print("Codec not found!)
+    quit()    
+
+Filename = "test." + CurrentMediaStreamContainer.PreferredFileExtension
+MediaStreamSink = TIS.Imaging.MediaStreamSink(CurrentMediaStreamContainer, CurrentCodec[0],
+                                              Filename)
+
+ic.Sink = MediaStreamSink
+```
+However, always add error handling, as shown in the Python file!
+Also: ic.Sink has a capital "S" at "Sink". I write this, because I used "ic.sink" and it took me half an hour to find that error.
+
+In order to keep the sample as simple as possible, the user interface does not contain file selection, start and stop functions. For enhancing the sample, please refer to the 
+above mentioned link.

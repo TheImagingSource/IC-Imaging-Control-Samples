@@ -2,7 +2,7 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QWidget,QMainWindow, QLabel, QSizePolicy, QApplication, QAction, QHBoxLayout,QProgressBar
 #from PyQt5.QtCore import Qt,QEvent,QObject
 from PyQt5.QtCore import *
-import sys,traceback
+import sys,traceback,os
 
 import ctypes as C
 import numpy as np
@@ -10,6 +10,9 @@ import cv2
 
 # Import PyhtonNet
 import clr
+# Add path to IC Imaging Control 3.5 .NET 64bit installation
+sys.path.append(os.getenv('IC35PATH') + "/redist/dotnet/x64")
+
 # Load IC Imaging Control .NET 
 clr.AddReference('TIS.Imaging.ICImagingControl35')
 clr.AddReference('System')

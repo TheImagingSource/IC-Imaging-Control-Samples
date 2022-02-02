@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QPixmap, QImage         
-from PyQt5.QtWidgets import QWidget,QMainWindow, QLabel, QSizePolicy, QApplication, QAction, QHBoxLayout,QProgressBar
-from PyQt5.QtCore import Qt,QEvent,QObject
+from PyQt5.QtWidgets import QWidget,QMainWindow, QLabel, QSizePolicy, QApplication, QAction, QHBoxLayout,QMessageBox
+#from PyQt5.QtCore import Qt,QEvent,QObject
 from PyQt5.QtCore import *
 import sys,traceback,os
 
@@ -10,14 +10,18 @@ import cv2
 
 # Import PyhtonNet
 import clr
+# Add path to IC Imaging Control 3.5 .NET 64bit installation
 sys.path.append(os.getenv('IC35PATH') + "/redist/dotnet/x64")
 
 # Load IC Imaging Control .NET 
 clr.AddReference('TIS.Imaging.ICImagingControl35')
+clr.AddReference('System')
 
 
 # Import the IC Imaging Control namespace.
 import TIS.Imaging
+from System import TimeSpan
+
 
 class SinkData:
     brightnes = 0
@@ -40,8 +44,6 @@ class DisplayBuffer:
 
 class WorkerSignals(QObject):
     display = pyqtSignal(object)
-    result = pyqtSignal(object)
-
 
 
 class DisplayFilter(TIS.Imaging.FrameFilterImpl):
@@ -70,34 +72,7 @@ class DisplayFilter(TIS.Imaging.FrameFilterImpl):
 
         return False
 
-
-
-# create a listener for the sink
-class Listener(TIS.Imaging.IFrameQueueSinkListener):
-    __namespace__ = 'ListenerNameSpace'
-
-    saveimage=False
-    signals = WorkerSignals() 
-    
-    def SinkConnected(self, sink, frameType ):
-        print('Sink connected')
-        sink.AllocAndQueueBuffers(2)
-
-    
-    def SinkDisconnected(self, sink,buffers):
-        print('Sink disconnected')
-
-    def FramesQueued(self,  sink):
-        frame = sink.PopOutputQueueBuffer()
-        
-        if self.saveimage is True:
-            self.saveimage = False
-            TIS.Imaging.FrameExtensions.SaveAsJpeg(frame,"test.jpg",75)
-
-        data = SinkData()
-        data.FrameBuffer = frame
-        self.signals.result.emit(data)
-
+####################################################################################
 
 def SelectDevice():
     ic.LiveStop()
@@ -111,10 +86,6 @@ def ShowProperties():
         ic.ShowPropertyDialog()
         ic.SaveDeviceStateToFile("device.xml")
 
-def SnapImage():
-    listener.saveimage = True
-    print("Snap")
-
 def Close():
     if ic.DeviceValid is True:
         ic.LiveStop()
@@ -124,26 +95,9 @@ def imageCallback(x,y,buffer):
     print("hallo")
     return 0
 
-def OnResult(result):
-    imgcontent = C.cast(result.FrameBuffer.GetIntPtr().ToInt64(), C.POINTER(C.c_ubyte * result.FrameBuffer.FrameType.BufferSize))
-    img = np.ndarray(buffer = imgcontent.contents,
-                    dtype = np.uint8,
-                    shape = (result.FrameBuffer.FrameType.Height,
-                            result.FrameBuffer.FrameType.Width,
-                            int(result.FrameBuffer.FrameType.BitsPerPixel/8 )) )
-    
-    # Calculate average image brightness
-    gray = cv2.cvtColor(img ,cv2.COLOR_BGR2GRAY)
-    mean = cv2.mean(gray)
-    brightnessbar.setValue(int(mean[0]))
-
-    sink.QueueBuffer(result.FrameBuffer)
-
 def OnDisplay(dispBuffer):
     videowindow.setPixmap(dispBuffer.pixmap)   
     dispBuffer.locked = False   
-    #videowindow.update()
-    #print("x")
 
 
 app =  QApplication(sys.argv)
@@ -171,27 +125,22 @@ devpropAct =  QAction("&Properties",app)
 devpropAct.triggered.connect(ShowProperties)
 deviceMenu.addAction(devpropAct)
 
-snapAct =  QAction("Snap &Image",app)
-snapAct.triggered.connect(SnapImage)
-deviceMenu.addAction(snapAct)
-
 layout = QHBoxLayout()
 mainwindow = QWidget()
 videowindow = QLabel()
 layout.addWidget(videowindow)
-
-brightnessbar = QProgressBar()
-brightnessbar.setRange(0,256)
-brightnessbar.setOrientation( Qt.Vertical)
-brightnessbar.setValue(25)
-layout.addWidget(brightnessbar)
 
 mainwindow.setLayout(layout)
 w.setCentralWidget(mainwindow)
 
 # Create the IC Imaging Control object.
 ic = TIS.Imaging.ICImagingControl()
-
+'''
+IC can not display a live video without a parent window.
+Therefore, a frame filter is used to get the images and 
+tell the main thread to display them.
+'''
+#ic.LiveDisplay = True
 # Instantiate the display filter object 
 # for live display
 displayFilter = DisplayFilter()
@@ -201,19 +150,34 @@ displayFilter.signals.display.connect(OnDisplay)
 
 ic.DisplayFrameFilters.Add( ic.FrameFilterCreate(displayFilter))
 
-# Create listener and sink and connect to IC
-# for image processing. 
-listener = Listener(TIS.Imaging.IFrameQueueSinkListener)
+# Get MP4 stream container
+CurrentMediaStreamContainer = None
+for container in TIS.Imaging.MediaStreamContainer.MediaStreamContainers:
+    if container.Name == "MP4":
+        CurrentMediaStreamContainer = container
 
-sink = TIS.Imaging.FrameQueueSink(listener,TIS.Imaging.MediaSubtypes.RGB32)
+if CurrentMediaStreamContainer is None:
+    msgBox = QMessageBox(text="MP4 Container not found!")
+    msgBox.exec()
+    quit()
 
-ic.Sink = sink
-# Connect the signal handler to the listener.
-listener.signals.result.connect(OnResult)
+# Get the MediaFoundation h.264 codec
+try:
+    CurrentCodec = next(c for c in TIS.Imaging.AviCompressor.AviCompressors 
+                        if CurrentMediaStreamContainer.IsCodecSupported(c) and 
+                        c.Name == "MediaFoundation h.264")
+except:
+    msgBox = QMessageBox(text="MediaFoundation h.264 codec not found!")
+    msgBox.exec()
+    quit()
 
-# use a TIS.Imaging.MediaStreamSink for video capture alternatively.
+Filename = "test." + CurrentMediaStreamContainer.PreferredFileExtension
+MediaStreamSink = TIS.Imaging.MediaStreamSink(CurrentMediaStreamContainer, CurrentCodec,
+                                              Filename)
+                                               
 
-ic.LiveDisplay = True
+ic.Sink = MediaStreamSink
+CurrentCodec.ShowPropertyPage()
 
 # Try to open the last used video capture device.
 try:
@@ -227,3 +191,7 @@ except Exception as ex:
 w.show()
 
 app.exec()
+
+if ic.DeviceValid is True:
+    ic.LiveStop()
+    
