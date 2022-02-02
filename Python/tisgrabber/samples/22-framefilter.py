@@ -72,25 +72,17 @@ if(ic.IC_IsDevValid(hGrabber)):
     ic.IC_FrameFilterSetParameterInt(FilterHandle, tis.T("Rotation Angle"), 0)
     ic.IC_StartLive(hGrabber, 1)
     time.sleep(2)
-    ic.IC_StopLive(hGrabber)
 
     ic.IC_FrameFilterSetParameterBoolean(FilterHandle, tis.T("Flip H"), 1)
-    ic.IC_StartLive(hGrabber, 1)
     time.sleep(2)
-    ic.IC_StopLive(hGrabber)
 
     ic.IC_FrameFilterSetParameterBoolean(FilterHandle, tis.T("Flip V"), 1)
-    ic.IC_StartLive(hGrabber, 1)
     time.sleep(2)
-    ic.IC_StopLive(hGrabber)
 
     ic.IC_FrameFilterSetParameterBoolean(FilterHandle, tis.T("Flip H"), 0)
-    ic.IC_StartLive(hGrabber, 1)
     time.sleep(2)
-    ic.IC_StopLive(hGrabber)
 
     ic.IC_FrameFilterSetParameterBoolean(FilterHandle, tis.T("Flip V"), 0)
-    ic.IC_StartLive(hGrabber, 1)
     time.sleep(2)
     ic.IC_StopLive(hGrabber)
 
