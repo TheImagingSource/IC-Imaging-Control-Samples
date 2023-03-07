@@ -36,9 +36,9 @@ Thus, a Python script that uses the *tisgrabber.dll* needs always following line
    ic = ctypes.cdll.LoadLibrary("./tisgrabber_x64.dll")
    tis.declareFunctions(ic)
 
-   ic.InitLibrary(0)
+   ic.IC_InitLibrary(0)
 
-The next line, which is always necessary is the ``ic.InitLibrary(0)`` call. 
+The next line, which is always necessary is the ``ic.IC_InitLibrary(0)`` call. 
 
 
 All functions of the tisgrabber.dll are now in the "ic" namespace.

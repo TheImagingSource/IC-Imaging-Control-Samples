@@ -74,10 +74,10 @@ declared. This is done in the file <em>tisgrabber.py</em>. This <em>tisgrabber.p
 <span class="n">ic</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s2">&quot;./tisgrabber_x64.dll&quot;</span><span class="p">)</span>
 <span class="n">tis</span><span class="o">.</span><span class="n">declareFunctions</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
 
-<span class="n">ic</span><span class="o">.</span><span class="n">InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ic</span><span class="o">.</span><span class="n">IC_InitLibrary</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The next line, which is always necessary is the <code class="docutils literal notranslate"><span class="pre">ic.InitLibrary(0)</span></code> call.</p>
+<p>The next line, which is always necessary is the <code class="docutils literal notranslate"><span class="pre">ic.IC_InitLibrary(0)</span></code> call.</p>
 <p>All functions of the tisgrabber.dll are now in the “ic” namespace.</p>
 </section>
 <section id="hgrabber">
